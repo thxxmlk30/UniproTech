@@ -1,0 +1,59 @@
+        <!-- PAGE: ACCUEIL -->
+        <section id="home" class="page-section fade-in">
+            <!-- Hero -->
+            <div class="text-center py-16 lg:py-24">
+                <h1 class="text-4xl md:text-6xl font-extrabold mb-6">
+                    L'innovation technique <br>
+                    <span class="text-brand-blue dark:text-blue-400">à votre portée</span>
+                </h1>
+                <p class="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
+                    UNIPRO TECH CLUB est le carrefour de l'excellence technologique. Nous concevons des solutions web et formons la prochaine génération d'ingénieurs.
+                </p>
+                <div class="flex justify-center gap-4">
+                    <button onclick="router('portfolio')" class="bg-brand-red text-white px-8 py-3 rounded-lg font-semibold hover:bg-red-700 transition shadow-lg shadow-red-500/30">
+                        Voir nos projets
+                    </button>
+                    <button onclick="router('contact')" class="border border-brand-blue text-brand-blue dark:text-blue-400 px-8 py-3 rounded-lg font-semibold hover:bg-blue-50 dark:hover:bg-gray-800 transition">
+                        Nous contacter
+                    </button>
+                </div>
+            </div>
+
+            <!-- Key Stats -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-20">
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm text-center border border-gray-100 dark:border-gray-700">
+                    <div class="text-4xl font-bold text-brand-blue mb-2" id="stat-projects">0</div>
+                    <div class="text-sm text-gray-500 uppercase tracking-wider">Projets Réalisés</div>
+                </div>
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm text-center border border-gray-100 dark:border-gray-700">
+                    <div class="text-4xl font-bold text-brand-red mb-2" id="stat-members">0</div>
+                    <div class="text-sm text-gray-500 uppercase tracking-wider">Membres Actifs</div>
+                </div>
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm text-center border border-gray-100 dark:border-gray-700">
+                    <div class="text-4xl font-bold text-blue-600 mb-2" id="stat-years">0</div>
+                    <div class="text-sm text-gray-500 uppercase tracking-wider">Années d'expérience</div>
+                </div>
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm text-center border border-gray-100 dark:border-gray-700">
+                    <div class="text-4xl font-bold text-green-600 mb-2" id="stat-satisfaction">100%</div>
+                    <div class="text-sm text-gray-500 uppercase tracking-wider">Satisfaction</div>
+                </div>
+            </div>
+
+            <!-- Gallery Preview -->
+            <div class="mb-20">
+                <div class="flex justify-between items-end mb-8">
+                    <div>
+                        <h2 class="text-3xl font-bold mb-2">Galerie d'activités</h2>
+                        <p class="text-gray-600 dark:text-gray-400">Moments forts de nos ateliers et événements.</p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 h-96">
+                    <!-- Using placeholder images for demo -->
+                    <img src="https://picsum.photos/seed/tech1/600/800" class="w-full h-full object-cover rounded-2xl hover:scale-[1.02] transition duration-500" alt="Event 1">
+                    <div class="md:mt-8">
+                        <img src="https://picsum.photos/seed/tech2/600/800" class="w-full h-full object-cover rounded-2xl hover:scale-[1.02] transition duration-500" alt="Event 2">
+                    </div>
+                    <img src="https://picsum.photos/seed/tech3/600/800" class="w-full h-full object-cover rounded-2xl hover:scale-[1.02] transition duration-500" alt="Event 3">
+                </div>
+            </div>
+        </section>

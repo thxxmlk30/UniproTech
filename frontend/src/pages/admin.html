@@ -1,0 +1,90 @@
+        <!-- PAGE: ADMIN DASHBOARD -->
+        <section id="admin" class="page-section hidden fade-in">
+            <div class="flex flex-col md:flex-row gap-8">
+                <!-- Sidebar Admin -->
+                <div class="w-full md:w-64 flex-shrink-0">
+                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-4 sticky top-24">
+                        <h3 class="font-bold text-lg mb-4 text-gray-400 uppercase text-xs tracking-wider">Tableau de bord</h3>
+                        <ul class="space-y-2">
+                            <li><button onclick="switchAdminTab('projects')" class="w-full text-left px-4 py-2 rounded hover:bg-blue-50 dark:hover:bg-gray-700 transition admin-nav-btn active">Gestion Projets</button></li>
+                            <li><button onclick="switchAdminTab('services')" class="w-full text-left px-4 py-2 rounded hover:bg-blue-50 dark:hover:bg-gray-700 transition admin-nav-btn">Gestion Services</button></li>
+                            <li><button onclick="switchAdminTab('stats')" class="w-full text-left px-4 py-2 rounded hover:bg-blue-50 dark:hover:bg-gray-700 transition admin-nav-btn">Chiffres Clés</button></li>
+                            <li><button onclick="logout()" class="w-full text-left px-4 py-2 rounded text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition mt-8"><i class="fas fa-sign-out-alt mr-2"></i> Déconnexion</button></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Content Admin -->
+                <div class="flex-grow">
+                    
+                    <!-- Tab: Projets -->
+                    <div id="admin-projects" class="admin-tab">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-2xl font-bold">Projets</h2>
+                            <button onclick="openProjectModal()" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition"><i class="fas fa-plus mr-2"></i>Ajouter</button>
+                        </div>
+                        
+                        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm overflow-hidden">
+                            <table class="w-full text-left">
+                                <thead class="bg-gray-50 dark:bg-gray-700 text-gray-500 dark:text-gray-300">
+                                    <tr>
+                                        <th class="p-4">Titre</th>
+                                        <th class="p-4">Catégorie</th>
+                                        <th class="p-4">Statut</th>
+                                        <th class="p-4 text-right">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="admin-projects-list" class="divide-y divide-gray-200 dark:divide-gray-700">
+                                    <!-- Injecté JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Tab: Services -->
+                    <div id="admin-services" class="admin-tab hidden">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-2xl font-bold">Services</h2>
+                            <button onclick="openServiceModal()" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition"><i class="fas fa-plus mr-2"></i>Ajouter</button>
+                        </div>
+                         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm overflow-hidden">
+                            <table class="w-full text-left">
+                                <thead class="bg-gray-50 dark:bg-gray-700 text-gray-500 dark:text-gray-300">
+                                    <tr>
+                                        <th class="p-4">Titre</th>
+                                        <th class="p-4">Description (Courte)</th>
+                                        <th class="p-4 text-right">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="admin-services-list" class="divide-y divide-gray-200 dark:divide-gray-700">
+                                    <!-- Injecté JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Tab: Stats -->
+                    <div id="admin-stats" class="admin-tab hidden">
+                        <h2 class="text-2xl font-bold mb-6">Modifier les statistiques</h2>
+                        <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm max-w-lg">
+                            <form onsubmit="updateStats(event)">
+                                <div class="mb-4">
+                                    <label class="block text-sm font-medium mb-1">Projets Réalisés</label>
+                                    <input type="number" id="edit-stat-projects" class="w-full p-2 rounded border dark:bg-gray-700">
+                                </div>
+                                <div class="mb-4">
+                                    <label class="block text-sm font-medium mb-1">Membres Actifs</label>
+                                    <input type="number" id="edit-stat-members" class="w-full p-2 rounded border dark:bg-gray-700">
+                                </div>
+                                <div class="mb-4">
+                                    <label class="block text-sm font-medium mb-1">Années d'expérience</label>
+                                    <input type="number" id="edit-stat-years" class="w-full p-2 rounded border dark:bg-gray-700">
+                                </div>
+                                <button type="submit" class="bg-brand-blue text-white px-4 py-2 rounded hover:bg-blue-800">Mettre à jour</button>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>

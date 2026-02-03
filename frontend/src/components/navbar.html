@@ -1,0 +1,58 @@
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-40 bg-white/90 dark:bg-gray-800/90 backdrop-blur-md shadow-sm border-b border-gray-200 dark:border-gray-700">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center cursor-pointer" onclick="router('home')">
+                    <!-- Logo URL fournie par l'utilisateur -->
+                    <img class="h-12 w-auto mr-2" src="https://z-cdn-media.chatglm.cn/files/d89b8645-34d3-4023-8b34-7ba2ef79dfb4.jpg?auth_key=1870027484-b8f1f99068354d8bb0c99bd50f5900eb-0-730036453c474fd1741f91083163b57e" alt="Unipro Tech Club Logo">
+                    <span class="font-bold text-xl tracking-tight">
+                        <span class="text-brand-blue">UNIPRO</span> <span class="text-brand-blue">TECH</span> <span class="text-brand-red">CLUB</span>
+                    </span>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-8 items-center">
+                    <button onclick="router('home')" class="hover:text-brand-blue dark:hover:text-blue-400 transition">Accueil</button>
+                    <button onclick="router('about')" class="hover:text-brand-blue dark:hover:text-blue-400 transition">À propos</button>
+                    <button onclick="router('portfolio')" class="hover:text-brand-blue dark:hover:text-blue-400 transition">Portfolio</button>
+                    <button onclick="router('services')" class="hover:text-brand-blue dark:hover:text-blue-400 transition">Services</button>
+                    <button onclick="router('contact')" class="hover:text-brand-blue dark:hover:text-blue-400 transition">Contact</button>
+                    
+                    <!-- Recherche -->
+                    <div class="relative">
+                        <input type="text" id="global-search" placeholder="Rechercher..." class="pl-3 pr-8 py-1 rounded-full border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue w-40 focus:w-60 transition-all">
+                        <i class="fas fa-search absolute right-3 top-1.5 text-gray-400"></i>
+                    </div>
+
+                    <!-- Dark Mode Toggle -->
+                    <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition">
+                        <i class="fas fa-moon dark:hidden"></i>
+                        <i class="fas fa-sun hidden dark:block"></i>
+                    </button>
+
+                    <!-- Admin Login Button -->
+                    <button id="auth-btn" onclick="handleAuthClick()" class="bg-brand-blue text-white px-4 py-2 rounded-lg hover:bg-blue-800 transition text-sm font-medium">
+                        Espace Admin
+                    </button>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-gray-600 dark:text-gray-300 focus:outline-none">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu Panel -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 p-4 space-y-3">
+            <button onclick="router('home')" class="block w-full text-left py-2">Accueil</button>
+            <button onclick="router('about')" class="block w-full text-left py-2">À propos</button>
+            <button onclick="router('portfolio')" class="block w-full text-left py-2">Portfolio</button>
+            <button onclick="router('services')" class="block w-full text-left py-2">Services</button>
+            <button onclick="router('contact')" class="block w-full text-left py-2">Contact</button>
+            <button id="auth-btn-mobile" onclick="handleAuthClick()" class="block w-full text-left py-2 text-brand-red font-bold">Espace Admin</button>
+        </div>
+    </nav>
