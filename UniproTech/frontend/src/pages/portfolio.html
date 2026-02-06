@@ -1,0 +1,25 @@
+        <!-- PAGE: PORTFOLIO -->
+        <section id="portfolio" class="page-section hidden fade-in">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+                <h2 class="text-3xl font-bold text-brand-blue dark:text-blue-400">Nos Projets</h2>
+                
+                <!-- Filtres -->
+                <div class="flex gap-2 flex-wrap" id="portfolio-filters">
+                    <button onclick="filterProjects('all')" class="px-4 py-2 rounded-full bg-brand-blue text-white text-sm filter-btn active">Tous</button>
+                    <button onclick="filterProjects('Web')" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm hover:bg-gray-300 dark:hover:bg-gray-600 transition filter-btn">Web</button>
+                    <button onclick="filterProjects('Mobile')" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm hover:bg-gray-300 dark:hover:bg-gray-600 transition filter-btn">Mobile</button>
+                    <button onclick="filterProjects('IA')" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm hover:bg-gray-300 dark:hover:bg-gray-600 transition filter-btn">IA</button>
+                </div>
+            </div>
+
+            <!-- Grille Projets -->
+            <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Injecté par JS -->
+            </div>
+            
+            <!-- État vide -->
+            <div id="no-projects" class="hidden text-center py-20">
+                <i class="fas fa-folder-open text-4xl text-gray-300 mb-4"></i>
+                <p class="text-gray-500">Aucun projet trouvé pour ce filtre.</p>
+            </div>
+        </section>
