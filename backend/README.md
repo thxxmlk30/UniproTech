@@ -1,152 +1,145 @@
-# Club Informatique - Backend
+# UNIPRO TECH CLUB - Backend API
 
-This is the backend API for the Club Informatique website. It's built with Node.js, Express.js, and MongoDB.
+## ⚠️ RÉPARTITION DES TÂCHES - À FAIRE PAR LES DÉVELOPPEURS
 
-## Tech Stack
-
-- **Node.js** - JavaScript runtime
-- **Express.js** - Web framework
-- **MongoDB** - NoSQL database
-- **Mongoose** - ODM for MongoDB
-- **JWT** - JSON Web Token for authentication
-- **Multer** - File upload handling
-- **bcryptjs** - Password hashing
-- **cors** - Cross-origin resource sharing
-
-## Project Structure
+### Structure des fichiers (vide - à implémenter)
 
 ```
-backend/
-├── src/
-│   ├── controllers/         # Route handlers
-│   │   ├── authController.js        # Authentication
-│   │   ├── projectController.js     # Project management
-│   │   ├── activityController.js    # Activity management
-│   │   ├── serviceController.js     # Service management
-│   │   └── contactController.js     # Contact form handling
-│   ├── models/              # MongoDB schemas
-│   │   ├── User.js          # User schema (admin)
-│   │   ├── Project.js       # Project schema
-│   │   ├── Activity.js      # Activity schema
-│   │   └── Service.js       # Service schema
-│   ├── routes/              # API routes
-│   │   ├── authRoutes.js    # Authentication routes
-│   │   ├── projectRoutes.js # Project routes
-│   │   ├── activityRoutes.js # Activity routes
-│   │   ├── serviceRoutes.js # Service routes
-│   │   └── contactRoutes.js # Contact routes
-│   ├── middlewares/         # Express middlewares
-│   │   ├── authMiddleware.js # JWT authentication middleware
-│   │   ├── errorMiddleware.js # Error handling
-│   │   └── fileUploadMiddleware.js # File upload handling
-│   ├── config/              # Configuration files
-│   │   ├── database.js      # MongoDB connection
-│   │   └── corsOptions.js   # CORS configuration
-│   ├── utils/               # Utility functions
-│   │   ├── generateToken.js # JWT token generation
-│   │   └── validation.js    # Input validation
-│   ├── services/            # Business logic
-│   │   ├── authService.js   # Authentication service
-│   │   ├── projectService.js # Project service
-│   │   ├── activityService.js # Activity service
-│   │   └── serviceService.js # Service service
-│   └── server.js            # Server entry point
-├── uploads/                 # Uploaded files storage
-├── package.json             # Dependencies and scripts
-└── .env.example             # Environment variables example
+backend/src/
+├── controllers/     # Logique métier
+│   ├── authController.js       → Momo
+│   ├── projectController.js     → Dioxane
+│   ├── serviceController.js    → MLK
+│   └── contactController.js   → Momo
+├── models/         # Schémas MongoDB
+│   ├── User.js                  → MLK
+│   ├── Project.js               → MLK
+│   ├── Service.js               → MLK
+│   ├── Message.js              → MLK
+│   └── Quote.js                → MLK
+├── routes/         # Définition routes API
+│   ├── authRoutes.js           → Momo
+│   ├── projectRoutes.js       → Dioxane
+│   ├── serviceRoutes.js       → DMLK
+│   └── contactRoutes.js       → Momo
+├── middlewares/    # Fonctions middleware
+│   ├── authMiddleware.js       → Momo
+│   ├── errorMiddleware.js      → TOUS
+│   └── uploadMiddleware.js     → Dioxane
+├── config/
+│   └── database.js             → Dioxane
+├── utils/
+│   └── generateToken.js        → DMomo
+├── services/
+│   └── emailService.js         → Momo
+└── server.js                   → Dioxane
 ```
 
-## Installation
+---
 
-1. Navigate to the backend directory
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
+## 📋 TÂCHES PAR DÉVELOPPEUR
 
-## Development
+### Dioxane - Setup + Projects + Server
+| Fichier | Description |
+|---------|-------------|
+| `config/database.js` | Connexion MongoDB avec Mongoose |
+| `server.js` | Point d'entrée Express |
+| `routes/projectRoutes.js` | Routes CRUD projects |
+| `controllers/projectController.js` | Logique CRUD projects + upload |
+| `middlewares/uploadMiddleware.js` | Configuration Multer |
 
-Start the development server:
+### MLK - Modèles + Services
+| Fichier | Description |
+|---------|-------------|
+| `models/User.js` | Schéma utilisateur admin |
+| `models/Project.js` | Schéma projets |
+| `models/Service.js` | Schéma services |
+| `models/Message.js` | Schéma messages contact |
+| `models/Quote.js` | Schéma demandes devis |
+| `routes/serviceRoutes.js` | Routes services |
+| `controllers/serviceController.js` | Logique CRUD services |
+
+### Momo - Auth + Contact + Emails
+| Fichier | Description |
+|---------|-------------|
+| `controllers/authController.js` | Login/Register/Logout JWT |
+| `routes/authRoutes.js` | Routes authentication |
+| `middlewares/authMiddleware.js` | Vérification JWT |
+| `utils/generateToken.js` | Génération tokens JWT |
+| `routes/contactRoutes.js` | Routes contact |
+| `controllers/contactController.js` | Logique messages + devis |
+| `services/emailService.js` | Envoi emails Nodemailer |
+
+### TOUS
+| Fichier | Description |
+|---------|-------------|
+| `middlewares/errorMiddleware.js` | Gestion erreurs centralisée |
+
+---
+
+## 🚀 Installation
 
 ```bash
+cd backend
+npm install
+cp .env.example .env
 npm run dev
 ```
 
-The API will be available at `http://localhost:5000/api`.
+---
 
-## Build
+## 🔗 Endpoints API
 
-Create a production build:
+### Authentification
+| Méthode | Route | Description |
+|---------|-------|-------------|
+| POST | `/api/auth/login` | Connexion admin |
+| POST | `/api/auth/register` | Créer admin (protégé) |
+| POST | `/api/auth/logout` | Déconnexion |
+| GET | `/api/auth/me` | Profil actuel |
 
-```bash
-npm run build
-```
+### Projets
+| Méthode | Route | Description |
+|---------|-------|-------------|
+| GET | `/api/projects` | Lister tous |
+| GET | `/api/projects/:id` | Détails projet |
+| POST | `/api/projects` | Créer (admin, image) |
+| PUT | `/api/projects/:id` | Modifier (admin) |
+| DELETE | `/api/projects/:id` | Supprimer (admin) |
 
-## Features
+### Services
+| Méthode | Route | Description |
+|---------|-------|-------------|
+| GET | `/api/services` | Lister services |
+| POST | `/api/services` | Créer (admin) |
+| PUT | `/api/services/:id` | Modifier (admin) |
+| DELETE | `/api/services/:id` | Supprimer (admin) |
 
-### Authentication
+### Contact
+| Méthode | Route | Description |
+|---------|-------|-------------|
+| POST | `/api/contact/message` | Envoyer message |
+| POST | `/api/contact/quote` | Demander devis |
+| GET | `/api/contact/messages` | Lister messages (admin) |
+| PATCH | `/api/contact/quotes/:id` | Statut devis (admin) |
 
-- **Admin Registration** - Create admin accounts (only available to existing admins)
-- **Login** - Secure login with JWT token
-- **Protected Routes** - All admin routes require JWT authentication
+---
 
-### Project Management
+## ✅ Checklist par développeur
 
-- **Get All Projects** - Retrieve all projects for portfolio display
-- **Get Project by ID** - Retrieve specific project details
-- **Create Project** - Add new project with images and details
-- **Update Project** - Modify existing project information
-- **Delete Project** - Remove project from database
-- **Upload Project Images** - Handle project image uploads
+**DEV 1:**
+- [ ] Installer MongoDB
+- [ ] Configurer connection DB
+- [ ] Créer server.js
+- [ ] Implémenter CRUD Projects
+- [ ] Configurer upload images
 
-### Activity Management
+**DEV 2:**
+- [ ] Créer tous les modèles Mongoose
+- [ ] Implémenter CRUD Services
 
-- **Get All Activities** - Retrieve all club activities
-- **Get Activity by ID** - Retrieve specific activity details
-- **Create Activity** - Add new club activities (events, workshops, training)
-- **Update Activity** - Modify existing activity information
-- **Delete Activity** - Remove activity from database
-
-### Service Management
-
-- **Get All Services** - Retrieve all services for services page
-- **Get Service by ID** - Retrieve specific service details
-- **Create Service** - Add new service offerings
-- **Update Service** - Modify existing service information
-- **Delete Service** - Remove service from database
-
-### Contact Management
-
-- **Submit Contact Form** - Handle contact form submissions
-- **Get Contact Messages** - Retrieve all contact messages (admin only)
-- **Delete Contact Message** - Remove contact message (admin only)
-
-## Configuration
-
-Create a `.env` file based on `.env.example`:
-
-```env
-PORT=5000
-MONGODB_URI=mongodb://localhost:27017/club-informatique
-JWT_SECRET=your_jwt_secret_key
-NODE_ENV=development
-CORS_ORIGIN=http://localhost:3000
-```
-
-## API Documentation
-
-API endpoints are documented using Postman collections. Import the collection from `docs/club-informatique-api.postman_collection.json`.
-
-## Database
-
-### Collections
-
-1. **users** - Admin users with authentication information
-2. **projects** - Project portfolio data
-3. **activities** - Club events, workshops, and training
-4. **services** - Service offerings
-5. **contactMessages** - Contact form submissions
-
-## Contributing
-
-Please follow the contributing guidelines in the root README.md file.
+**DEV 3:**
+- [ ] Implémenter auth JWT
+- [ ] Créer middleware auth
+- [ ] Implémenter contact/quotes
+- [ ] Configurer Nodemailer
