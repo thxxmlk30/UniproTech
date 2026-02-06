@@ -46,6 +46,7 @@
         /* Masquer la scrollbar par défaut mais permettre le scroll */
         .no-scrollbar::-webkit-scrollbar {
             display: none;
+            
         }
         .no-scrollbar {
             -ms-overflow-style: none;
@@ -81,6 +82,9 @@
         .admin-section {
             display: none; /* Caché par défaut */
         }
+
+
+        
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-100 flex flex-col min-h-screen">
@@ -88,88 +92,191 @@
     <!-- Notification Toast Container -->
     <div id="toast-container" class="fixed top-5 right-5 z-50 flex flex-col gap-2"></div>
 
-    <!-- Navigation -->
-    <nav class="sticky top-0 z-40 bg-white/90 dark:bg-gray-800/90 backdrop-blur-md shadow-sm border-b border-gray-200 dark:border-gray-700">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-20 items-center">
-                <!-- Logo -->
-                <div class="flex-shrink-0 flex items-center cursor-pointer" onclick="router('home')">
-                    <!-- Logo URL fournie par l'utilisateur -->
-                    <img class="h-12 w-auto mr-2" src="https://z-cdn-media.chatglm.cn/files/d89b8645-34d3-4023-8b34-7ba2ef79dfb4.jpg?auth_key=1870027484-b8f1f99068354d8bb0c99bd50f5900eb-0-730036453c474fd1741f91083163b57e" alt="Unipro Tech Club Logo">
-                    <span class="font-bold text-xl tracking-tight">
-                        <span class="text-brand-blue">UNIPRO</span> <span class="text-brand-blue">TECH</span> <span class="text-brand-red">CLUB</span>
-                    </span>
+  <!-- Navigation -->
+<nav class="sticky top-0 z-40 bg-white/90 dark:bg-gray-800/90 backdrop-blur-md shadow-sm border-b border-gray-200 dark:border-gray-700">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-24 items-center">
+            <!-- Logo -->
+            <div class="flex-shrink-0 flex items-center cursor-pointer" onclick="router('home')">
+                <img class="h-20 w-auto mr-2" src="https://z-cdn-media.chatglm.cn/files/d89b8645-34d3-4023-8b34-7ba2ef79dfb4.jpg?auth_key=1870027484-b8f1f99068354d8bb0c99bd50f5900eb-0-730036453c474fd1741f91083163b57e" alt="Unipro Tech Club Logo">
+                <span class="font-bold text-2xl tracking-tight font-serif">
+                    <span class="text-brand-blue">UNIPRO-</span><span class="text-brand-blue">TECH</span><span class="text-brand-red">-CLUB</span>
+                </span>
+            </div>
+
+            <!-- Desktop Actions -->
+            <div class="hidden md:flex items-center space-x-4">
+                <!-- Recherche -->
+                <div class="relative font-bold font-serif">
+                    <input type="text" id="global-search" placeholder="Rechercher..." class="pl-2 pr-8 py-2 rounded-full border border-gray-200 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue w-40 focus:w-60 transition-all">
+                    <i class="fas fa-search absolute right-3 top-1.5 text-gray-400"></i>
                 </div>
 
-                <!-- Desktop Menu -->
-                <div class="hidden md:flex space-x-8 items-center">
-                    <button onclick="router('home')" class="hover:text-brand-blue dark:hover:text-blue-400 transition">Accueil</button>
-                    <button onclick="router('about')" class="hover:text-brand-blue dark:hover:text-blue-400 transition">À propos</button>
-                    <button onclick="router('portfolio')" class="hover:text-brand-blue dark:hover:text-blue-400 transition">Portfolio</button>
-                    <button onclick="router('services')" class="hover:text-brand-blue dark:hover:text-blue-400 transition">Services</button>
-                    <button onclick="router('contact')" class="hover:text-brand-blue dark:hover:text-blue-400 transition">Contact</button>
-                    
-                    <!-- Recherche -->
-                    <div class="relative">
-                        <input type="text" id="global-search" placeholder="Rechercher..." class="pl-3 pr-8 py-1 rounded-full border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue w-40 focus:w-60 transition-all">
-                        <i class="fas fa-search absolute right-3 top-1.5 text-gray-400"></i>
-                    </div>
+                <!-- Dark Mode Toggle -->
+                <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition">
+                    <i class="fas fa-moon dark:hidden"></i>
+                    <i class="fas fa-sun hidden dark:block"></i>
+                </button>
 
-                    <!-- Dark Mode Toggle -->
-                    <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition">
-                        <i class="fas fa-moon dark:hidden"></i>
-                        <i class="fas fa-sun hidden dark:block"></i>
-                    </button>
+                <!-- Admin Login Button -->
+                <button id="auth-btn" onclick="handleAuthClick()" class="bg-brand-blue text-white px-4 py-2 rounded-lg hover:bg-blue-800 transition text-sm font-serif font-bold">
+                    Espace Admin
+                </button>
 
-                    <!-- Admin Login Button -->
-                    <button id="auth-btn" onclick="handleAuthClick()" class="bg-brand-blue text-white px-4 py-2 rounded-lg hover:bg-blue-800 transition text-sm font-medium">
-                        Espace Admin
-                    </button>
-                </div>
+                <!-- Menu Hamburger (Desktop aussi) -->
+                 <h6 class="menu font-bold font-serif mr-3 w-8">menu</h6>
+                <button id="menuToggle" class="flex flex-col space-y-1.5 p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition">
+                    <span class="block w-6 h-0.5 bg-gray-800 dark:bg-white transition-all"></span>
+                    <span class="block w-6 h-0.5 bg-gray-800 dark:bg-white transition-all"></span>
+                    <span class="block w-6 h-0.5 bg-gray-800 dark:bg-white transition-all"></span>
+                </button>
+            </div>
 
-                <!-- Mobile Menu Button -->
-                <div class="md:hidden flex items-center">
-                    <button id="mobile-menu-btn" class="text-gray-600 dark:text-gray-300 focus:outline-none">
-                        <i class="fas fa-bars text-2xl"></i>
-                    </button>
-                </div>
+            <!-- Mobile Actions -->
+            <div class="md:hidden flex items-center space-x-2">
+                <!-- Dark Mode Toggle Mobile -->
+                <button id="theme-toggle-mobile" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition">
+                    <i class="fas fa-moon dark:hidden"></i>
+                    <i class="fas fa-sun hidden dark:block"></i>
+                </button>
+
+                <!-- Menu Hamburger Mobile -->
+                <button id="menuToggleMobile" class="flex flex-col space-y-1.5 p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition">
+                    <span class="block w-6 h-0.5 bg-gray-800 dark:bg-white transition-all"></span>
+                    <span class="block w-6 h-0.5 bg-gray-800 dark:bg-white transition-all"></span>
+                    <span class="block w-6 h-0.5 bg-gray-800 dark:bg-white transition-all"></span>
+                </button>
             </div>
         </div>
-        
+    </div>
+    
+    <!-- Menu déroulant (commun desktop/mobile) -->
+    <div id="mobileMenu" class="hidden absolute top-full right-4 mt-2 w-72 bg-white dark:bg-gray-800 shadow-xl rounded-lg p-6 z-50 border border-gray-200 dark:border-gray-700">
+        <div class="flex flex-col space-y-4 text-sm font-serif font-bold">
+            <button onclick="router('home'); toggleMenu()" class="hover:text-brand-blue dark:hover:text-blue-400 transition text-left p-2 rounded hover:bg-gray-50 dark:hover:bg-gray-700">
+                <i class="fas fa-home mr-3 w-5"></i>Accueil
+            </button>
+            <button onclick="router('about'); toggleMenu()" class="hover:text-brand-blue dark:hover:text-blue-400 transition text-left p-2 rounded hover:bg-gray-50 dark:hover:bg-gray-700">
+                <i class="fas fa-info-circle mr-3 w-5"></i>À propos
+            </button>
+            <button onclick="router('portfolio'); toggleMenu()" class="hover:text-brand-blue dark:hover:text-blue-400 transition text-left p-2 rounded hover:bg-gray-50 dark:hover:bg-gray-700">
+                <i class="fas fa-briefcase mr-3 w-5"></i>Portfolio
+            </button>
+            <button onclick="router('services'); toggleMenu()" class="hover:text-brand-blue dark:hover:text-blue-400 transition text-left p-2 rounded hover:bg-gray-50 dark:hover:bg-gray-700">
+                <i class="fas fa-cogs mr-3 w-5"></i>Services
+            </button>
+            <button onclick="router('contact'); toggleMenu()" class="hover:text-brand-blue dark:hover:text-blue-400 transition text-left p-2 rounded hover:bg-gray-50 dark:hover:bg-gray-700">
+                <i class="fas fa-envelope mr-3 w-5"></i>Contact
+            </button>
+        </div>
+    </div>
+</nav>
+
+<script>
+function toggleMenu() {
+    const mobileMenu = document.getElementById('mobileMenu');
+    const menuToggle = document.getElementById('menuToggle');
+    const menuToggleMobile = document.getElementById('menuToggleMobile');
+    
+    // Récupérer les spans du bouton approprié
+    let spans;
+    if (window.innerWidth >= 768) {
+        spans = menuToggle?.querySelectorAll('span');
+    } else {
+        spans = menuToggleMobile?.querySelectorAll('span');
+    }
+    
+    // Toggle le menu
+    mobileMenu.classList.toggle('hidden');
+    
+    // Animation du hamburger en X
+    if (!mobileMenu.classList.contains('hidden')) {
+        if (spans) {
+            spans[0].style.transform = 'rotate(45deg) translateY(8px)';
+            spans[1].style.opacity = '0';
+            spans[2].style.transform = 'rotate(-45deg) translateY(-8px)';
+        }
+    } else {
+        if (spans) {
+            spans[0].style.transform = 'none';
+            spans[1].style.opacity = '1';
+            spans[2].style.transform = 'none';
+        }
+    }
+}
+
+// Event listeners pour les deux boutons
+document.getElementById('menuToggle')?.addEventListener('click', toggleMenu);
+document.getElementById('menuToggleMobile')?.addEventListener('click', toggleMenu);
+
+// Synchroniser le dark mode sur mobile
+document.getElementById('theme-toggle-mobile')?.addEventListener('click', function() {
+    document.getElementById('theme-toggle').click();
+});
+
+// Fermer le menu si on clique en dehors
+document.addEventListener('click', function(event) {
+    const mobileMenu = document.getElementById('mobileMenu');
+    const menuToggle = document.getElementById('menuToggle');
+    const menuToggleMobile = document.getElementById('menuToggleMobile');
+    
+    if (!mobileMenu.contains(event.target) && 
+        !menuToggle?.contains(event.target) && 
+        !menuToggleMobile?.contains(event.target)) {
+        if (!mobileMenu.classList.contains('hidden')) {
+            toggleMenu();
+        }
+    }
+});
+</script>
+
+
+
+
+                    
         <!-- Mobile Menu Panel -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 p-4 space-y-3">
+        <!--<div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 p-4 space-y-3">
             <button onclick="router('home')" class="block w-full text-left py-2">Accueil</button>
             <button onclick="router('about')" class="block w-full text-left py-2">À propos</button>
             <button onclick="router('portfolio')" class="block w-full text-left py-2">Portfolio</button>
             <button onclick="router('services')" class="block w-full text-left py-2">Services</button>
             <button onclick="router('contact')" class="block w-full text-left py-2">Contact</button>
             <button id="auth-btn-mobile" onclick="handleAuthClick()" class="block w-full text-left py-2 text-brand-red font-bold">Espace Admin</button>
-        </div>
+        </div>-->
     </nav>
 
-    <!-- Main Content Container -->
-    <main id="main-content" class="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative">
+        <!-- Main Content Container -->
+<main id="main-content" class="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative">
+    
+    <!-- Bouton Retour (caché par défaut) -->
+    <button id="back-button" class="hidden mb-6 flex items-center gap-2 text-brand-blue hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 transition font-semibold" onclick="goBack()">
+        <i class="fas fa-arrow-left"></i>
+        <span>Retour</span>
+    </button>
         
         <!-- PAGE: ACCUEIL -->
         <section id="home" class="page-section fade-in">
             <!-- Hero -->
-            <div class="text-center py-16 lg:py-24">
-                <h1 class="text-4xl md:text-6xl font-extrabold mb-6">
-                    L'innovation technique <br>
-                    <span class="text-brand-blue dark:text-blue-400">à votre portée</span>
-                </h1>
-                <p class="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
+            <!-- Hero -->
+<div class="text-center py-16 lg:py-24 bg-cover bg-center rounded-2xl" style="background-image: url('images-unipro-tech/WhatsApp\ Image\ 2026-02-03\ at\ 21.12.16\ \(2\).jpeg');">
+    <h1 class="text-4xl md:text-6xl font-extrabold mb-6">
+        L'innovation technique <br>
+        <span class="text-brand-blue dark:text-blue-400">à votre portée</span>
+    </h1>
+
+
+                <p class="text-lg md:text-xl text-blue-white-900 dark:text-blue-400 mb-8 max-w-2xl mx-auto">
                     UNIPRO TECH CLUB est le carrefour de l'excellence technologique. Nous concevons des solutions web et formons la prochaine génération d'ingénieurs.
                 </p>
                 <div class="flex justify-center gap-4">
                     <button onclick="router('portfolio')" class="bg-brand-red text-white px-8 py-3 rounded-lg font-semibold hover:bg-red-700 transition shadow-lg shadow-red-500/30">
                         Voir nos projets
                     </button>
-                    <button onclick="router('contact')" class="border border-brand-blue text-brand-blue dark:text-blue-400 px-8 py-3 rounded-lg font-semibold hover:bg-blue-50 dark:hover:bg-gray-800 transition">
+                    <button onclick="router('contact')" class="border border-brand-blue text-brand-blue dark:text-blue-500 px-8 py-3 rounded-lg font-semibold hover:bg-blue-50 dark:hover:bg-gray-800 transition">
                         Nous contacter
                     </button>
                 </div>
-            </div>
+            </div></div>
 
             <!-- Key Stats -->
             <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-20">
@@ -195,17 +302,17 @@
             <div class="mb-20">
                 <div class="flex justify-between items-end mb-8">
                     <div>
-                        <h2 class="text-3xl font-bold mb-2">Galerie d'activités</h2>
-                        <p class="text-gray-600 dark:text-gray-400">Moments forts de nos ateliers et événements.</p>
+                        <h2 class="text-4xl font-bold mb-2">Galerie d'activités</h2>
+                        <p class="text-gray-600 dark:text-gray-400 font-bold ">Moments forts de nos ateliers et événements.</p>
                     </div>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 h-96">
                     <!-- Using placeholder images for demo -->
-                    <img src="https://picsum.photos/seed/tech1/600/800" class="w-full h-full object-cover rounded-2xl hover:scale-[1.02] transition duration-500" alt="Event 1">
+                    <img src="images-unipro-tech/cheerful-data-center-experts-working-together-using-deep-learning-algorithms.jpg" class="w-full h-full object-cover rounded-2xl hover:scale-[1.02] transition duration-500" alt="Event 1">
                     <div class="md:mt-8">
-                        <img src="https://picsum.photos/seed/tech2/600/800" class="w-full h-full object-cover rounded-2xl hover:scale-[1.02] transition duration-500" alt="Event 2">
+                        <img src="images-unipro-tech/WhatsApp Image 2026-02-03 at 21.12.16.jpeg" class="w-full h-full object-cover rounded-2xl hover:scale-[1.02] transition duration-500" alt="Event 2">
                     </div>
-                    <img src="https://picsum.photos/seed/tech3/600/800" class="w-full h-full object-cover rounded-2xl hover:scale-[1.02] transition duration-500" alt="Event 3">
+                    <img src="images-unipro-tech/boskampi-programming-1873854_1920.png" class="w-full h-full object-cover rounded-2xl hover:scale-[1.02] transition duration-500" alt="Event 3">
                 </div>
             </div>
         </section>
@@ -498,1574 +605,14 @@
                 <a href="#" class="text-gray-400 hover:text-brand-blue transition"><i class="fab fa-facebook fa-lg"></i></a>
                 <a href="#" class="text-gray-400 hover:text-brand-blue transition"><i class="fab fa-linkedin fa-lg"></i></a>
                 <a href="#" class="text-gray-400 hover:text-brand-blue transition"><i class="fab fa-instagram fa-lg"></i></a>
-                <a href="#" class="text-gray-400 hover:text-brand-blue transition"><i class="fab fa-github fa-lg"></i></a>
             </div>
         </div>
     </footer>
-
-    <!-- Modals -->
-    <!-- Modal Project -->
-    <div id="project-modal" class="fixed inset-0 bg-black/50 hidden z-50 flex items-center justify-center p-4 backdrop-blur-sm">
-        <div class="bg-white dark:bg-gray-800 w-full max-w-lg rounded-2xl shadow-2xl p-6">
-            <h3 class="text-xl font-bold mb-4" id="modal-project-title">Ajouter un projet</h3>
-            <form onsubmit="saveProject(event)">
-                <input type="hidden" id="p-id">
-                <div class="grid grid-cols-2 gap-4 mb-4">
-                    <input type="text" id="p-title" placeholder="Titre du projet" required class="p-2 border rounded dark:bg-gray-700">
-                    <select id="p-category" class="p-2 border rounded dark:bg-gray-700">
-                        <option value="Web">Web</option>
-                        <option value="Mobile">Mobile</option>
-                        <option value="IA">IA</option>
-                    </select>
-                </div>
-                <div class="grid grid-cols-2 gap-4 mb-4">
-                    <select id="p-status" class="p-2 border rounded dark:bg-gray-700">
-                        <option value="Terminé">Terminé</option>
-                        <option value="En cours">En cours</option>
-                    </select>
-                    <input type="text" id="p-tech" placeholder="Techs (ex: React, Node)" class="p-2 border rounded dark:bg-gray-700">
-                </div>
-                <div class="mb-4">
-                    <textarea id="p-desc" placeholder="Description détaillée" rows="3" class="w-full p-2 border rounded dark:bg-gray-700"></textarea>
-                </div>
-                <div class="mb-4">
-                    <input type="text" id="p-image" placeholder="URL Image (laisser vide pour aléatoire)" class="w-full p-2 border rounded dark:bg-gray-700">
-                </div>
-                <div class="flex justify-end gap-3">
-                    <button type="button" onclick="closeProjectModal()" class="px-4 py-2 text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 rounded">Annuler</button>
-                    <button type="submit" class="px-4 py-2 bg-brand-blue text-white rounded hover:bg-blue-800">Sauvegarder</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Modal Service -->
-    <div id="service-modal" class="fixed inset-0 bg-black/50 hidden z-50 flex items-center justify-center p-4 backdrop-blur-sm">
-        <div class="bg-white dark:bg-gray-800 w-full max-w-lg rounded-2xl shadow-2xl p-6">
-            <h3 class="text-xl font-bold mb-4" id="modal-service-title">Ajouter un service</h3>
-            <form onsubmit="saveService(event)">
-                <input type="hidden" id="s-id">
-                <div class="mb-4">
-                    <input type="text" id="s-title" placeholder="Titre du service" required class="w-full p-2 border rounded dark:bg-gray-700">
-                </div>
-                <div class="mb-4">
-                    <input type="text" id="s-icon" placeholder="Classe Icone (ex: fa-code)" class="w-full p-2 border rounded dark:bg-gray-700">
-                </div>
-                <div class="mb-4">
-                    <textarea id="s-desc" placeholder="Description" rows="3" class="w-full p-2 border rounded dark:bg-gray-700"></textarea>
-                </div>
-                <div class="flex justify-end gap-3">
-                    <button type="button" onclick="closeServiceModal()" class="px-4 py-2 text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 rounded">Annuler</button>
-                    <button type="submit" class="px-4 py-2 bg-brand-blue text-white rounded hover:bg-blue-800">Sauvegarder</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- JAVASCRIPT LOGIC -->
-    <script>
-        // --- 1. STATE & DATA MANAGEMENT ---
-        
-        // Default Data (Seed)
-        const defaultData = {
-            stats: { projects: 42, members: 150, years: 5, satisfaction: '100%' },
-            projects: [
-                { id: 1, title: 'EcoPlateforme', category: 'Web', status: 'Terminé', tech: 'React, Tailwind', desc: 'Plateforme de gestion écologique pour entreprises.', image: 'https://picsum.photos/seed/p1/400/300' },
-                { id: 2, title: 'HealthApp', category: 'Mobile', status: 'En cours', tech: 'Flutter, Firebase', desc: 'Application de suivi médical connectée.', image: 'https://picsum.photos/seed/p2/400/300' },
-                { id: 3, title: 'AI Predict', category: 'IA', status: 'Terminé', tech: 'Python, TensorFlow', desc: 'Modèle prédictif pour la finance.', image: 'https://picsum.photos/seed/p3/400/300' },
-            ],
-            services: [
-                { id: 1, title: 'Développement Web', icon: 'fa-code', desc: 'Sites modernes, rapides et responsive.' },
-                { id: 2, title: 'Applications Mobile', icon: 'fa-mobile-alt', desc: 'Apps iOS et Android natives ou hybrides.' },
-                { id: 3, title: 'Consulting IT', icon: 'fa-server', desc: 'Audit, conseil et optimisation infrastructure.' },
-            ],
-            currentUser: null // 'admin' or null
-        };
-
-        // Load Data
-        let db = JSON.parse(localStorage.getItem('unipro_db')) || defaultData;
-        
-        // Save Data Helper
-        const saveDb = () => {
-            localStorage.setItem('unipro_db', JSON.stringify(db));
-            updateUI();
-        };
-
-        // --- 2. ROUTING & NAVIGATION ---
-        
-        const router = (pageId) => {
-            // Hide all sections
-            document.querySelectorAll('.page-section').forEach(el => el.classList.add('hidden'));
-            
-            // Show requested section
-            const target = document.getElementById(pageId);
-            if (target) target.classList.remove('hidden');
-            
-            // Scroll to top
-            window.scrollTo(0, 0);
-
-            // Close mobile menu if open
-            document.getElementById('mobile-menu').classList.add('hidden');
-        };
-
-        const handleAuthClick = () => {
-            if (db.currentUser === 'admin') {
-                router('admin');
-            } else {
-                router('login');
-            }
-        };
-
-        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
-            document.getElementById('mobile-menu').classList.toggle('hidden');
-        });
-
-        // --- 3. UI RENDERING ---
-
-        const updateUI = () => {
-            renderStats();
-            renderPortfolio();
-            renderServices();
-            renderAdminTables();
-            
-            // Update Auth Button Text
-            const authText = db.currentUser === 'admin' ? 'Dashboard' : 'Espace Admin';
-            document.getElementById('auth-btn').textContent = authText;
-            document.getElementById('auth-btn-mobile').textContent = authText;
-        };
-
-        const renderStats = () => {
-            document.getElementById('stat-projects').textContent = db.stats.projects;
-            document.getElementById('stat-members').textContent = db.stats.members;
-            document.getElementById('stat-years').textContent = db.stats.years;
-            // Satisfaction is hardcoded in demo, but could be dynamic
-        };
-
-        const renderPortfolio = (filter = 'all') => {
-            const grid = document.getElementById('projects-grid');
-            grid.innerHTML = '';
-
-            const filtered = db.projects.filter(p => filter === 'all' || p.category === filter);
-
-            if (filtered.length === 0) {
-                document.getElementById('no-projects').classList.remove('hidden');
-            } else {
-                document.getElementById('no-projects').classList.add('hidden');
-                filtered.forEach(p => {
-                    const statusColor = p.status === 'Terminé' ? 'bg-green-500' : 'bg-yellow-500';
-                    const html = `
-                        <div class="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition group border border-gray-100 dark:border-gray-700">
-                            <div class="h-48 overflow-hidden relative">
-                                <img src="${p.image}" alt="${p.title}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-                                <span class="absolute top-4 right-4 ${statusColor} text-white text-xs font-bold px-2 py-1 rounded">${p.status}</span>
-                            </div>
-                            <div class="p-6">
-                                <div class="text-xs text-brand-blue font-bold uppercase mb-2">${p.category}</div>
-                                <h3 class="text-xl font-bold mb-2">${p.title}</h3>
-                                <p class="text-gray-500 dark:text-gray-400 text-sm mb-4 line-clamp-2">${p.desc}</p>
-                                <div class="flex items-center justify-between mt-auto">
-                                    <span class="text-xs text-gray-400 bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded">${p.tech}</span>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    grid.innerHTML += html;
-                });
-            }
-        };
-
-        const filterProjects = (cat) => {
-            // Update active button visual
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.classList.remove('bg-brand-blue', 'text-white');
-                btn.classList.add('bg-gray-200', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-300');
-            });
-            event.target.classList.remove('bg-gray-200', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-300');
-            event.target.classList.add('bg-brand-blue', 'text-white');
-            
-            renderPortfolio(cat);
-        };
-
-        const renderServices = () => {
-            const grid = document.getElementById('services-grid');
-            grid.innerHTML = '';
-            db.services.forEach(s => {
-                const html = `
-                    <div class="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-sm hover:-translate-y-1 transition duration-300 border border-gray-100 dark:border-gray-700 cursor-pointer group">
-                        <div class="w-14 h-14 bg-blue-50 dark:bg-blue-900/30 rounded-lg flex items-center justify-center text-brand-blue text-2xl mb-6 group-hover:bg-brand-blue group-hover:text-white transition">
-                            <i class="fas ${s.icon}"></i>
-                        </div>
-                        <h3 class="text-xl font-bold mb-3">${s.title}</h3>
-                        <p class="text-gray-500 dark:text-gray-400 mb-4">${s.desc}</p>
-                        <span class="text-brand-red text-sm font-semibold group-hover:underline">En savoir plus <i class="fas fa-arrow-right ml-1"></i></span>
-                    </div>
-                `;
-                grid.innerHTML += html;
-            });
-        };
-
-        // --- 4. ADMIN LOGIC ---
-
-        const handleLogin = (e) => {
-            e.preventDefault();
-            const u = document.getElementById('username').value;
-            const p = document.getElementById('password').value;
-            
-            if (u === 'admin' && p === 'admin') {
-                db.currentUser = 'admin';
-                saveDb();
-                showToast('Connexion réussie', 'success');
-                router('admin');
-                // Pre-fill stats form
-                document.getElementById('edit-stat-projects').value = db.stats.projects;
-                document.getElementById('edit-stat-members').value = db.stats.members;
-                document.getElementById('edit-stat-years').value = db.stats.years;
-            } else {
-                showToast('Identifiants incorrects', 'error');
-            }
-        };
-
-        const logout = () => {
-            db.currentUser = null;
-            saveDb();
-            router('home');
-            showToast('Déconnecté', 'info');
-        };
-
-        const switchAdminTab = (tabId) => {
-            document.querySelectorAll('.admin-tab').forEach(el => el.classList.add('hidden'));
-            document.getElementById('admin-' + tabId).classList.remove('hidden');
-            
-            // Nav active state
-            document.querySelectorAll('.admin-nav-btn').forEach(btn => {
-                btn.classList.remove('bg-blue-50', 'dark:bg-gray-700', 'text-brand-blue', 'font-bold');
-            });
-            event.currentTarget.classList.add('bg-blue-50', 'dark:bg-gray-700', 'text-brand-blue', 'font-bold');
-        };
-
-        // --- CRUD Projects ---
-        
-        const renderAdminTables = () => {
-            const pList = document.getElementById('admin-projects-list');
-            pList.innerHTML = '';
-            db.projects.forEach(p => {
-                const row = `
-                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition">
-                        <td class="p-4 font-medium">${p.title}</td>
-                        <td class="p-4 text-sm text-gray-500">${p.category}</td>
-                        <td class="p-4"><span class="px-2 py-1 rounded text-xs font-bold ${p.status === 'Terminé' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}">${p.status}</span></td>
-                        <td class="p-4 text-right space-x-2">
-                            <button onclick="editProject(${p.id})" class="text-blue-600 hover:text-blue-800"><i class="fas fa-edit"></i></button>
-                            <button onclick="deleteProject(${p.id})" class="text-red-600 hover:text-red-800"><i class="fas fa-trash"></i></button>
-                        </td>
-                    </tr>
-                `;
-                pList.innerHTML += row;
-            });
-
-            const sList = document.getElementById('admin-services-list');
-            sList.innerHTML = '';
-            db.services.forEach(s => {
-                const row = `
-                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition">
-                        <td class="p-4 font-medium">${s.title}</td>
-                        <td class="p-4 text-sm text-gray-500 truncate max-w-xs">${s.desc}</td>
-                        <td class="p-4 text-right space-x-2">
-                            <button onclick="editService(${s.id})" class="text-blue-600 hover:text-blue-800"><i class="fas fa-edit"></i></button>
-                            <button onclick="deleteService(${s.id})" class="text-red-600 hover:text-red-800"><i class="fas fa-trash"></i></button>
-                        </td>
-                    </tr>
-                `;
-                sList.innerHTML += row;
-            });
-        };
-
-        // Project Modal & Form
-        const openProjectModal = () => {
-            document.getElementById('p-id').value = '';
-            document.getElementById('p-title').value = '';
-            document.getElementById('p-desc').value = '';
-            document.getElementById('p-tech').value = '';
-            document.getElementById('p-image').value = '';
-            document.getElementById('modal-project-title').textContent = "Ajouter un projet";
-            document.getElementById('project-modal').classList.remove('hidden');
-        };
-
-        const editProject = (id) => {
-            const p = db.projects.find(x => x.id === id);
-            if(!p) return;
-            document.getElementById('p-id').value = p.id;
-            document.getElementById('p-title').value = p.title;
-            document.getElementById('p-category').value = p.category;
-            document.getElementById('p-status').value = p.status;
-            document.getElementById('p-desc').value = p.desc;
-            document.getElementById('p-tech').value = p.tech;
-            document.getElementById('p-image').value = p.image;
-            document.getElementById('modal-project-title').textContent = "Modifier le projet";
-            document.getElementById('project-modal').classList.remove('hidden');
-        };
-
-        const closeProjectModal = () => {
-            document.getElementById('project-modal').classList.add('hidden');
-        };
-
-        const saveProject = (e) => {
-            e.preventDefault();
-            const id = document.getElementById('p-id').value;
-            const newProject = {
-                id: id ? parseInt(id) : Date.now(),
-                title: document.getElementById('p-title').value,
-                category: document.getElementById('p-category').value,
-                status: document.getElementById('p-status').value,
-                desc: document.getElementById('p-desc').value,
-                tech: document.getElementById('p-tech').value,
-                image: document.getElementById('p-image').value || `https://picsum.photos/seed/${Date.now()}/400/300`
-            };
-
-            if (id) {
-                const idx = db.projects.findIndex(x => x.id == id);
-                db.projects[idx] = newProject;
-                showToast('Projet modifié', 'success');
-            } else {
-                db.projects.push(newProject);
-                db.stats.projects++; // Auto update stats
-                showToast('Projet ajouté', 'success');
-            }
-            
-            saveDb();
-            closeProjectModal();
-        };
-
-        const deleteProject = (id) => {
-            if(confirm('Supprimer ce projet ?')) {
-                db.projects = db.projects.filter(x => x.id !== id);
-                saveDb();
-                showToast('Projet supprimé', 'info');
-            }
-        };
-
-        // Service Modal & Form
-        const openServiceModal = () => {
-            document.getElementById('s-id').value = '';
-            document.getElementById('s-title').value = '';
-            document.getElementById('s-desc').value = '';
-            document.getElementById('s-icon').value = '';
-            document.getElementById('modal-service-title').textContent = "Ajouter un service";
-            document.getElementById('service-modal').classList.remove('hidden');
-        };
-
-        const editService = (id) => {
-            const s = db.services.find(x => x.id === id);
-            if(!s) return;
-            document.getElementById('s-id').value = s.id;
-            document.getElementById('s-title').value = s.title;
-            document.getElementById('s-desc').value = s.desc;
-            document.getElementById('s-icon').value = s.icon;
-            document.getElementById('modal-service-title').textContent = "Modifier le service";
-            document.getElementById('service-modal').classList.remove('hidden');
-        };
-
-        const closeServiceModal = () => {
-            document.getElementById('service-modal').classList.add('hidden');
-        };
-
-        const saveService = (e) => {
-            e.preventDefault();
-            const id = document.getElementById('s-id').value;
-            const newService = {
-                id: id ? parseInt(id) : Date.now(),
-                title: document.getElementById('s-title').value,
-                desc: document.getElementById('s-desc').value,
-                icon: document.getElementById('s-icon').value || 'fa-cogs'
-            };
-
-            if (id) {
-                const idx = db.services.findIndex(x => x.id == id);
-                db.services[idx] = newService;
-            } else {
-                db.services.push(newService);
-            }
-            saveDb();
-            closeServiceModal();
-            showToast('Service sauvegardé', 'success');
-        };
-
-        const deleteService = (id) => {
-            if(confirm('Supprimer ce service ?')) {
-                db.services = db.services.filter(x => x.id !== id);
-                saveDb();
-                showToast('Service supprimé', 'info');
-            }
-        };
-
-        const updateStats = (e) => {
-            e.preventDefault();
-            db.stats.projects = parseInt(document.getElementById('edit-stat-projects').value);
-            db.stats.members = parseInt(document.getElementById('edit-stat-members').value);
-            db.stats.years = parseInt(document.getElementById('edit-stat-years').value);
-            saveDb();
-            showToast('Statistiques mises à jour', 'success');
-        };
-
-        // --- 5. UTILS ---
-
-        // Search Function
-        document.getElementById('global-search').addEventListener('input', (e) => {
-            const term = e.target.value.toLowerCase();
-            if(term.length < 2) {
-                renderPortfolio();
-                return;
-            }
-            
-            const grid = document.getElementById('projects-grid');
-            grid.innerHTML = '';
-            
-            // Simple search across projects and services titles
-            const foundProjects = db.projects.filter(p => p.title.toLowerCase().includes(term));
-            
-            // Switch to portfolio view if searching
-            // router('portfolio'); // Optional: auto-switch tab
-            
-            foundProjects.forEach(p => {
-                 // Reuse render logic (simplified for brevity)
-                 const html = `
-                    <div class="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-sm border border-gray-100 dark:border-gray-700 p-4">
-                        <h3 class="font-bold">${p.title}</h3>
-                        <p class="text-sm text-gray-500">${p.category}</p>
-                    </div>`;
-                grid.innerHTML += html;
-            });
-            
-            if(foundProjects.length === 0) {
-                grid.innerHTML = '<p class="col-span-3 text-center text-gray-500">Aucun résultat.</p>';
-            }
-        });
-
-        // Contact Tabs
-        const switchContactTab = (tab) => {
-            const formMsg = document.getElementById('contact-form');
-            const formQuote = document.getElementById('quote-form');
-            const tabMsg = document.getElementById('tab-message');
-            const tabQuote = document.getElementById('tab-quote');
-
-            if(tab === 'message') {
-                formMsg.classList.remove('hidden');
-                formQuote.classList.add('hidden');
-                tabMsg.classList.add('border-brand-blue', 'text-brand-blue', 'dark:text-blue-400');
-                tabMsg.classList.remove('border-transparent', 'text-gray-500');
-                tabQuote.classList.remove('border-brand-blue', 'text-brand-blue', 'dark:text-blue-400');
-                tabQuote.classList.add('border-transparent', 'text-gray-500');
-            } else {
-                formMsg.classList.add('hidden');
-                formQuote.classList.remove('hidden');
-                tabQuote.classList.add('border-brand-blue', 'text-brand-blue', 'dark:text-blue-400');
-                tabQuote.classList.remove('border-transparent', 'text-gray-500');
-                tabMsg.classList.remove('border-brand-blue', 'text-brand-blue', 'dark:text-blue-400');
-                tabMsg.classList.add('border-transparent', 'text-gray-500');
-            }
-        };
-
-        const handleContactSubmit = (e) => {
-            e.preventDefault();
-            // Simulation d'envoi
-            const btn = e.target.querySelector('button');
-            const originalText = btn.textContent;
-            btn.textContent = 'Envoi...';
-            btn.disabled = true;
-
-            setTimeout(() => {
-                showToast('Message envoyé avec succès !', 'success');
-                e.target.reset();
-                btn.textContent = originalText;
-                btn.disabled = false;
-            }, 1500);
-        };
-
-        // Toast Notification System
-        const showToast = (message, type = 'info') => {
-            const container = document.getElementById('toast-container');
-            const toast = document.createElement('div');
-            
-            const colors = {
-                success: 'bg-green-500',
-                error: 'bg-red-500',
-                info: 'bg-blue-500'
-            };
-            
-            toast.className = `${colors[type]} text-white px-6 py-3 rounded-lg shadow-lg transform transition-all duration-300 translate-x-full opacity-0 flex items-center`;
-            toast.innerHTML = `<i class="fas fa-info-circle mr-2"></i> ${message}`;
-            
-            container.appendChild(toast);
-            
-            // Animate in
-            requestAnimationFrame(() => {
-                toast.classList.remove('translate-x-full', 'opacity-0');
-            });
-            
-            // Remove after 3s
-            setTimeout(() => {
-                toast.classList.add('opacity-0', 'translate-y-2');
-                setTimeout(() => toast.remove(), 300);
-            }, 3000);
-        };
-
-        // Dark Mode
-        const themeToggle = document.getElementById('theme-toggle');
-        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            document.documentElement.classList.add('dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-        }
-
-        themeToggle.addEventListener('click', () => {
-            document.documentElement.classList.toggle('dark');
-            if (document.documentElement.classList.contains('dark')) {
-                localStorage.theme = 'dark';
-            } else {
-                localStorage.theme = 'light';
-            }
-        });
-
-        // --- INIT ---
-        window.addEventListener('DOMContentLoaded', () => {
-            updateUI();
-        });
-
-    </script>
-</body>
-</html><!DOCTYPE html>
-<html lang="fr" class="scroll-smooth">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UNIPRO TECH CLUB - Site Officiel</title>
     
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Scripts -->
+    <script src="app.js"></script>
+
     
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
-    <!-- Configuration Tailwind & Styles Personnalisés -->
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                    colors: {
-                        brand: {
-                            blue: '#1e3a8a', // Bleu profond UNIPRO
-                            red: '#dc2626',  // Rouge CLUB
-                            dark: '#0f172a',
-                            light: '#f8fafc'
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-
-    <style>
-        /* Styles globaux et animations */
-        body {
-            font-family: 'Inter', sans-serif;
-            transition: background-color 0.3s, color 0.3s;
-        }
-        
-        /* Masquer la scrollbar par défaut mais permettre le scroll */
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-
-        /* Animation de fade-in */
-        .fade-in {
-            animation: fadeIn 0.5s ease-in-out;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Loader */
-        .loader {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #1e3a8a;
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            animation: spin 1s linear infinite;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Styles spécifiques pour l'admin */
-        .admin-section {
-            display: none; /* Caché par défaut */
-        }
-    </style>
-</head>
-<body class="bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-100 flex flex-col min-h-screen">
-
-    <!-- Notification Toast Container -->
-    <div id="toast-container" class="fixed top-5 right-5 z-50 flex flex-col gap-2"></div>
-
-    <!-- Navigation -->
-    <nav class="sticky top-0 z-40 bg-white/90 dark:bg-gray-800/90 backdrop-blur-md shadow-sm border-b border-gray-200 dark:border-gray-700">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-20 items-center">
-                <!-- Logo -->
-                <div class="flex-shrink-0 flex items-center cursor-pointer" onclick="router('home')">
-                    <!-- Logo URL fournie par l'utilisateur -->
-                    <img class="h-12 w-auto mr-2" src="https://z-cdn-media.chatglm.cn/files/d89b8645-34d3-4023-8b34-7ba2ef79dfb4.jpg?auth_key=1870027484-b8f1f99068354d8bb0c99bd50f5900eb-0-730036453c474fd1741f91083163b57e" alt="Unipro Tech Club Logo">
-                    <span class="font-bold text-xl tracking-tight">
-                        <span class="text-brand-blue">UNIPRO</span> <span class="text-brand-blue">TECH</span> <span class="text-brand-red">CLUB</span>
-                    </span>
-                </div>
-
-                <!-- Desktop Menu -->
-                <div class="hidden md:flex space-x-8 items-center">
-                    <button onclick="router('home')" class="hover:text-brand-blue dark:hover:text-blue-400 transition">Accueil</button>
-                    <button onclick="router('about')" class="hover:text-brand-blue dark:hover:text-blue-400 transition">À propos</button>
-                    <button onclick="router('portfolio')" class="hover:text-brand-blue dark:hover:text-blue-400 transition">Portfolio</button>
-                    <button onclick="router('services')" class="hover:text-brand-blue dark:hover:text-blue-400 transition">Services</button>
-                    <button onclick="router('contact')" class="hover:text-brand-blue dark:hover:text-blue-400 transition">Contact</button>
-                    
-                    <!-- Recherche -->
-                    <div class="relative">
-                        <input type="text" id="global-search" placeholder="Rechercher..." class="pl-3 pr-8 py-1 rounded-full border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue w-40 focus:w-60 transition-all">
-                        <i class="fas fa-search absolute right-3 top-1.5 text-gray-400"></i>
-                    </div>
-
-                    <!-- Dark Mode Toggle -->
-                    <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition">
-                        <i class="fas fa-moon dark:hidden"></i>
-                        <i class="fas fa-sun hidden dark:block"></i>
-                    </button>
-
-                    <!-- Admin Login Button -->
-                    <button id="auth-btn" onclick="handleAuthClick()" class="bg-brand-blue text-white px-4 py-2 rounded-lg hover:bg-blue-800 transition text-sm font-medium">
-                        Espace Admin
-                    </button>
-                </div>
-
-                <!-- Mobile Menu Button -->
-                <div class="md:hidden flex items-center">
-                    <button id="mobile-menu-btn" class="text-gray-600 dark:text-gray-300 focus:outline-none">
-                        <i class="fas fa-bars text-2xl"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Mobile Menu Panel -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 p-4 space-y-3">
-            <button onclick="router('home')" class="block w-full text-left py-2">Accueil</button>
-            <button onclick="router('about')" class="block w-full text-left py-2">À propos</button>
-            <button onclick="router('portfolio')" class="block w-full text-left py-2">Portfolio</button>
-            <button onclick="router('services')" class="block w-full text-left py-2">Services</button>
-            <button onclick="router('contact')" class="block w-full text-left py-2">Contact</button>
-            <button id="auth-btn-mobile" onclick="handleAuthClick()" class="block w-full text-left py-2 text-brand-red font-bold">Espace Admin</button>
-        </div>
-    </nav>
-
-    <!-- Main Content Container -->
-    <main id="main-content" class="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative">
-        
-        <!-- PAGE: ACCUEIL -->
-        <section id="home" class="page-section fade-in">
-            <!-- Hero -->
-            <div class="text-center py-16 lg:py-24">
-                <h1 class="text-4xl md:text-6xl font-extrabold mb-6">
-                    L'innovation technique <br>
-                    <span class="text-brand-blue dark:text-blue-400">à votre portée</span>
-                </h1>
-                <p class="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
-                    UNIPRO TECH CLUB est le carrefour de l'excellence technologique. Nous concevons des solutions web et formons la prochaine génération d'ingénieurs.
-                </p>
-                <div class="flex justify-center gap-4">
-                    <button onclick="router('portfolio')" class="bg-brand-red text-white px-8 py-3 rounded-lg font-semibold hover:bg-red-700 transition shadow-lg shadow-red-500/30">
-                        Voir nos projets
-                    </button>
-                    <button onclick="router('contact')" class="border border-brand-blue text-brand-blue dark:text-blue-400 px-8 py-3 rounded-lg font-semibold hover:bg-blue-50 dark:hover:bg-gray-800 transition">
-                        Nous contacter
-                    </button>
-                </div>
-            </div>
-
-            <!-- Key Stats -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-20">
-                <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm text-center border border-gray-100 dark:border-gray-700">
-                    <div class="text-4xl font-bold text-brand-blue mb-2" id="stat-projects">0</div>
-                    <div class="text-sm text-gray-500 uppercase tracking-wider">Projets Réalisés</div>
-                </div>
-                <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm text-center border border-gray-100 dark:border-gray-700">
-                    <div class="text-4xl font-bold text-brand-red mb-2" id="stat-members">0</div>
-                    <div class="text-sm text-gray-500 uppercase tracking-wider">Membres Actifs</div>
-                </div>
-                <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm text-center border border-gray-100 dark:border-gray-700">
-                    <div class="text-4xl font-bold text-blue-600 mb-2" id="stat-years">0</div>
-                    <div class="text-sm text-gray-500 uppercase tracking-wider">Années d'expérience</div>
-                </div>
-                <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm text-center border border-gray-100 dark:border-gray-700">
-                    <div class="text-4xl font-bold text-green-600 mb-2" id="stat-satisfaction">100%</div>
-                    <div class="text-sm text-gray-500 uppercase tracking-wider">Satisfaction</div>
-                </div>
-            </div>
-
-            <!-- Gallery Preview -->
-            <div class="mb-20">
-                <div class="flex justify-between items-end mb-8">
-                    <div>
-                        <h2 class="text-3xl font-bold mb-2">Galerie d'activités</h2>
-                        <p class="text-gray-600 dark:text-gray-400">Moments forts de nos ateliers et événements.</p>
-                    </div>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 h-96">
-                    <!-- Using placeholder images for demo -->
-                    <img src="https://picsum.photos/seed/tech1/600/800" class="w-full h-full object-cover rounded-2xl hover:scale-[1.02] transition duration-500" alt="Event 1">
-                    <div class="md:mt-8">
-                        <img src="https://picsum.photos/seed/tech2/600/800" class="w-full h-full object-cover rounded-2xl hover:scale-[1.02] transition duration-500" alt="Event 2">
-                    </div>
-                    <img src="https://picsum.photos/seed/tech3/600/800" class="w-full h-full object-cover rounded-2xl hover:scale-[1.02] transition duration-500" alt="Event 3">
-                </div>
-            </div>
-        </section>
-
-        <!-- PAGE: À PROPOS -->
-        <section id="about" class="page-section hidden fade-in">
-            <div class="max-w-4xl mx-auto">
-                <h2 class="text-3xl font-bold mb-8 text-brand-blue dark:text-blue-400">À propos de nous</h2>
-                <div class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-sm mb-8">
-                    <h3 class="text-xl font-semibold mb-4">Qui sommes-nous ?</h3>
-                    <p class="mb-4 text-gray-600 dark:text-gray-300 leading-relaxed" id="about-desc">
-                        UNIPRO TECH CLUB est une association d'étudiants passionnés par l'informatique et les nouvelles technologies. Notre mission est double : former nos membres à travers des ateliers pratiques et offrir des services professionnels de haute qualité à nos partenaires.
-                    </p>
-                    
-                    <h3 class="text-xl font-semibold mb-4 mt-6">Notre Vision</h3>
-                    <ul class="list-disc pl-5 space-y-2 text-gray-600 dark:text-gray-300" id="about-vision">
-                        <li>Devenir le pôle d'excellence technique de notre région.</li>
-                        <li>Favoriser l'innovation collaborative entre étudiants.</li>
-                        <li>Bridger le fossé entre théorie académique et pratique industrielle.</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <!-- PAGE: PORTFOLIO -->
-        <section id="portfolio" class="page-section hidden fade-in">
-            <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
-                <h2 class="text-3xl font-bold text-brand-blue dark:text-blue-400">Nos Projets</h2>
-                
-                <!-- Filtres -->
-                <div class="flex gap-2 flex-wrap" id="portfolio-filters">
-                    <button onclick="filterProjects('all')" class="px-4 py-2 rounded-full bg-brand-blue text-white text-sm filter-btn active">Tous</button>
-                    <button onclick="filterProjects('Web')" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm hover:bg-gray-300 dark:hover:bg-gray-600 transition filter-btn">Web</button>
-                    <button onclick="filterProjects('Mobile')" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm hover:bg-gray-300 dark:hover:bg-gray-600 transition filter-btn">Mobile</button>
-                    <button onclick="filterProjects('IA')" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm hover:bg-gray-300 dark:hover:bg-gray-600 transition filter-btn">IA</button>
-                </div>
-            </div>
-
-            <!-- Grille Projets -->
-            <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Injecté par JS -->
-            </div>
-            
-            <!-- État vide -->
-            <div id="no-projects" class="hidden text-center py-20">
-                <i class="fas fa-folder-open text-4xl text-gray-300 mb-4"></i>
-                <p class="text-gray-500">Aucun projet trouvé pour ce filtre.</p>
-            </div>
-        </section>
-
-        <!-- PAGE: SERVICES -->
-        <section id="services" class="page-section hidden fade-in">
-            <h2 class="text-3xl font-bold mb-8 text-brand-blue dark:text-blue-400">Nos Services</h2>
-            
-            <!-- Grille Services -->
-            <div id="services-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-                <!-- Injecté par JS -->
-            </div>
-
-            <!-- Témoignages -->
-            <div class="bg-blue-50 dark:bg-gray-800 rounded-2xl p-8 md:p-12">
-                <h3 class="text-2xl font-bold mb-8 text-center">Ce que disent nos clients</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="bg-white dark:bg-gray-900 p-6 rounded-xl shadow-sm">
-                        <div class="flex items-center mb-4">
-                            <div class="text-yellow-400 text-sm">
-                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                            </div>
-                        </div>
-                        <p class="text-gray-600 dark:text-gray-300 italic mb-4">"Une équipe professionnelle et réactive. Le site web qu'ils ont créé pour nous a dépassé nos attentes."</p>
-                        <div class="font-bold text-brand-blue">- Jean Dupont, Startup X</div>
-                    </div>
-                    <div class="bg-white dark:bg-gray-900 p-6 rounded-xl shadow-sm">
-                        <div class="flex items-center mb-4">
-                            <div class="text-yellow-400 text-sm">
-                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                            </div>
-                        </div>
-                        <p class="text-gray-600 dark:text-gray-300 italic mb-4">"J'ai adoré leur approche pédagogique lors de la formation. Je recommande vivement UNIPRO."</p>
-                        <div class="font-bold text-brand-blue">- Marie Curie, Étude Plus</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- PAGE: CONTACT -->
-        <section id="contact" class="page-section hidden fade-in">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                <!-- Info Contact -->
-                <div>
-                    <h2 class="text-3xl font-bold mb-6 text-brand-blue dark:text-blue-400">Contactez-nous</h2>
-                    <p class="mb-8 text-gray-600 dark:text-gray-300">
-                        Vous avez un projet en tête ? Vous souhaitez nous rejoindre ? Remplissez le formulaire ci-contre et nous vous répondrons dans les plus brefs délais.
-                    </p>
-                    
-                    <div class="space-y-4">
-                        <div class="flex items-center">
-                            <div class="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center text-brand-blue mr-4">
-                                <i class="fas fa-envelope"></i>
-                            </div>
-                            <span>contact@uniproclub.com</span>
-                        </div>
-                        <div class="flex items-center">
-                            <div class="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center text-brand-blue mr-4">
-                                <i class="fas fa-phone"></i>
-                            </div>
-                            <span>+33 1 23 45 67 89</span>
-                        </div>
-                        <div class="flex items-center">
-                            <div class="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center text-brand-blue mr-4">
-                                <i class="fas fa-map-marker-alt"></i>
-                            </div>
-                            <span>Campus Universitaire, Batiment C</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Formulaires -->
-                <div class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg">
-                    <!-- Tabs -->
-                    <div class="flex border-b border-gray-200 dark:border-gray-700 mb-6">
-                        <button onclick="switchContactTab('message')" id="tab-message" class="pb-2 px-4 border-b-2 border-brand-blue font-medium text-brand-blue dark:text-blue-400">Message</button>
-                        <button onclick="switchContactTab('quote')" id="tab-quote" class="pb-2 px-4 border-b-2 border-transparent font-medium text-gray-500 hover:text-gray-700 dark:hover:text-gray-300">Demande de Devis</button>
-                    </div>
-
-                    <!-- Formulaire Message -->
-                    <form id="contact-form" onsubmit="handleContactSubmit(event)">
-                        <div class="mb-4">
-                            <label class="block text-sm font-medium mb-1">Nom complet</label>
-                            <input type="text" required class="w-full p-2 rounded border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 focus:ring-2 focus:ring-brand-blue outline-none">
-                        </div>
-                        <div class="mb-4">
-                            <label class="block text-sm font-medium mb-1">Email</label>
-                            <input type="email" required class="w-full p-2 rounded border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 focus:ring-2 focus:ring-brand-blue outline-none">
-                        </div>
-                        <div class="mb-4">
-                            <label class="block text-sm font-medium mb-1">Message</label>
-                            <textarea rows="4" required class="w-full p-2 rounded border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 focus:ring-2 focus:ring-brand-blue outline-none"></textarea>
-                        </div>
-                        <button type="submit" class="w-full bg-brand-blue text-white py-2 rounded font-bold hover:bg-blue-800 transition">Envoyer</button>
-                    </form>
-
-                    <!-- Formulaire Devis (Caché par défaut) -->
-                    <form id="quote-form" class="hidden" onsubmit="handleContactSubmit(event)">
-                        <div class="mb-4">
-                            <label class="block text-sm font-medium mb-1">Entreprise / Nom</label>
-                            <input type="text" required class="w-full p-2 rounded border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 focus:ring-2 focus:ring-brand-blue outline-none">
-                        </div>
-                        <div class="mb-4">
-                            <label class="block text-sm font-medium mb-1">Type de service</label>
-                            <select class="w-full p-2 rounded border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 focus:ring-2 focus:ring-brand-blue outline-none">
-                                <option>Création Site Web</option>
-                                <option>Développement Application</option>
-                                <option>Conseil Informatique</option>
-                                <option>Autre</option>
-                            </select>
-                        </div>
-                        <div class="mb-4">
-                            <label class="block text-sm font-medium mb-1">Détails du projet</label>
-                            <textarea rows="4" required class="w-full p-2 rounded border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 focus:ring-2 focus:ring-brand-blue outline-none"></textarea>
-                        </div>
-                        <button type="submit" class="w-full bg-brand-red text-white py-2 rounded font-bold hover:bg-red-700 transition">Demander un devis</button>
-                    </form>
-                </div>
-            </div>
-        </section>
-
-        <!-- PAGE: LOGIN ADMIN -->
-        <section id="login" class="page-section hidden fade-in">
-            <div class="max-w-md mx-auto mt-20 bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-xl">
-                <h2 class="text-2xl font-bold mb-6 text-center text-brand-blue">Connexion Admin</h2>
-                <form onsubmit="handleLogin(event)">
-                    <div class="mb-4">
-                        <label class="block text-sm font-medium mb-1">Identifiant</label>
-                        <input type="text" id="username" class="w-full p-2 rounded border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 focus:ring-2 focus:ring-brand-blue outline-none" placeholder="admin">
-                    </div>
-                    <div class="mb-6">
-                        <label class="block text-sm font-medium mb-1">Mot de passe</label>
-                        <input type="password" id="password" class="w-full p-2 rounded border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 focus:ring-2 focus:ring-brand-blue outline-none" placeholder="admin">
-                    </div>
-                    <button type="submit" class="w-full bg-brand-blue text-white py-2 rounded font-bold hover:bg-blue-800 transition">Se connecter</button>
-                </form>
-                <p class="text-center text-xs text-gray-500 mt-4">Démo : admin / admin</p>
-            </div>
-        </section>
-
-        <!-- PAGE: ADMIN DASHBOARD -->
-        <section id="admin" class="page-section hidden fade-in">
-            <div class="flex flex-col md:flex-row gap-8">
-                <!-- Sidebar Admin -->
-                <div class="w-full md:w-64 flex-shrink-0">
-                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-4 sticky top-24">
-                        <h3 class="font-bold text-lg mb-4 text-gray-400 uppercase text-xs tracking-wider">Tableau de bord</h3>
-                        <ul class="space-y-2">
-                            <li><button onclick="switchAdminTab('projects')" class="w-full text-left px-4 py-2 rounded hover:bg-blue-50 dark:hover:bg-gray-700 transition admin-nav-btn active">Gestion Projets</button></li>
-                            <li><button onclick="switchAdminTab('services')" class="w-full text-left px-4 py-2 rounded hover:bg-blue-50 dark:hover:bg-gray-700 transition admin-nav-btn">Gestion Services</button></li>
-                            <li><button onclick="switchAdminTab('stats')" class="w-full text-left px-4 py-2 rounded hover:bg-blue-50 dark:hover:bg-gray-700 transition admin-nav-btn">Chiffres Clés</button></li>
-                            <li><button onclick="logout()" class="w-full text-left px-4 py-2 rounded text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition mt-8"><i class="fas fa-sign-out-alt mr-2"></i> Déconnexion</button></li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Content Admin -->
-                <div class="flex-grow">
-                    
-                    <!-- Tab: Projets -->
-                    <div id="admin-projects" class="admin-tab">
-                        <div class="flex justify-between items-center mb-6">
-                            <h2 class="text-2xl font-bold">Projets</h2>
-                            <button onclick="openProjectModal()" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition"><i class="fas fa-plus mr-2"></i>Ajouter</button>
-                        </div>
-                        
-                        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm overflow-hidden">
-                            <table class="w-full text-left">
-                                <thead class="bg-gray-50 dark:bg-gray-700 text-gray-500 dark:text-gray-300">
-                                    <tr>
-                                        <th class="p-4">Titre</th>
-                                        <th class="p-4">Catégorie</th>
-                                        <th class="p-4">Statut</th>
-                                        <th class="p-4 text-right">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="admin-projects-list" class="divide-y divide-gray-200 dark:divide-gray-700">
-                                    <!-- Injecté JS -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                    <!-- Tab: Services -->
-                    <div id="admin-services" class="admin-tab hidden">
-                        <div class="flex justify-between items-center mb-6">
-                            <h2 class="text-2xl font-bold">Services</h2>
-                            <button onclick="openServiceModal()" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition"><i class="fas fa-plus mr-2"></i>Ajouter</button>
-                        </div>
-                         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm overflow-hidden">
-                            <table class="w-full text-left">
-                                <thead class="bg-gray-50 dark:bg-gray-700 text-gray-500 dark:text-gray-300">
-                                    <tr>
-                                        <th class="p-4">Titre</th>
-                                        <th class="p-4">Description (Courte)</th>
-                                        <th class="p-4 text-right">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="admin-services-list" class="divide-y divide-gray-200 dark:divide-gray-700">
-                                    <!-- Injecté JS -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                    <!-- Tab: Stats -->
-                    <div id="admin-stats" class="admin-tab hidden">
-                        <h2 class="text-2xl font-bold mb-6">Modifier les statistiques</h2>
-                        <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm max-w-lg">
-                            <form onsubmit="updateStats(event)">
-                                <div class="mb-4">
-                                    <label class="block text-sm font-medium mb-1">Projets Réalisés</label>
-                                    <input type="number" id="edit-stat-projects" class="w-full p-2 rounded border dark:bg-gray-700">
-                                </div>
-                                <div class="mb-4">
-                                    <label class="block text-sm font-medium mb-1">Membres Actifs</label>
-                                    <input type="number" id="edit-stat-members" class="w-full p-2 rounded border dark:bg-gray-700">
-                                </div>
-                                <div class="mb-4">
-                                    <label class="block text-sm font-medium mb-1">Années d'expérience</label>
-                                    <input type="number" id="edit-stat-years" class="w-full p-2 rounded border dark:bg-gray-700">
-                                </div>
-                                <button type="submit" class="bg-brand-blue text-white px-4 py-2 rounded hover:bg-blue-800">Mettre à jour</button>
-                            </form>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </section>
-
-    </main>
-
-    <!-- Footer -->
-    <footer class="bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 py-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
-            <div class="mb-4 md:mb-0">
-                <span class="font-bold text-lg">
-                    <span class="text-brand-blue">UNIPRO</span> <span class="text-brand-blue">TECH</span> <span class="text-brand-red">CLUB</span>
-                </span>
-                <p class="text-sm text-gray-500 mt-1">© 2026 Tous droits réservés.</p>
-            </div>
-            <div class="flex space-x-6">
-                <a href="#" class="text-gray-400 hover:text-brand-blue transition"><i class="fab fa-facebook fa-lg"></i></a>
-                <a href="#" class="text-gray-400 hover:text-brand-blue transition"><i class="fab fa-linkedin fa-lg"></i></a>
-                <a href="#" class="text-gray-400 hover:text-brand-blue transition"><i class="fab fa-instagram fa-lg"></i></a>
-                <a href="#" class="text-gray-400 hover:text-brand-blue transition"><i class="fab fa-github fa-lg"></i></a>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Modals -->
-    <!-- Modal Project -->
-    <div id="project-modal" class="fixed inset-0 bg-black/50 hidden z-50 flex items-center justify-center p-4 backdrop-blur-sm">
-        <div class="bg-white dark:bg-gray-800 w-full max-w-lg rounded-2xl shadow-2xl p-6">
-            <h3 class="text-xl font-bold mb-4" id="modal-project-title">Ajouter un projet</h3>
-            <form onsubmit="saveProject(event)">
-                <input type="hidden" id="p-id">
-                <div class="grid grid-cols-2 gap-4 mb-4">
-                    <input type="text" id="p-title" placeholder="Titre du projet" required class="p-2 border rounded dark:bg-gray-700">
-                    <select id="p-category" class="p-2 border rounded dark:bg-gray-700">
-                        <option value="Web">Web</option>
-                        <option value="Mobile">Mobile</option>
-                        <option value="IA">IA</option>
-                    </select>
-                </div>
-                <div class="grid grid-cols-2 gap-4 mb-4">
-                    <select id="p-status" class="p-2 border rounded dark:bg-gray-700">
-                        <option value="Terminé">Terminé</option>
-                        <option value="En cours">En cours</option>
-                    </select>
-                    <input type="text" id="p-tech" placeholder="Techs (ex: React, Node)" class="p-2 border rounded dark:bg-gray-700">
-                </div>
-                <div class="mb-4">
-                    <textarea id="p-desc" placeholder="Description détaillée" rows="3" class="w-full p-2 border rounded dark:bg-gray-700"></textarea>
-                </div>
-                <div class="mb-4">
-                    <input type="text" id="p-image" placeholder="URL Image (laisser vide pour aléatoire)" class="w-full p-2 border rounded dark:bg-gray-700">
-                </div>
-                <div class="flex justify-end gap-3">
-                    <button type="button" onclick="closeProjectModal()" class="px-4 py-2 text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 rounded">Annuler</button>
-                    <button type="submit" class="px-4 py-2 bg-brand-blue text-white rounded hover:bg-blue-800">Sauvegarder</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Modal Service -->
-    <div id="service-modal" class="fixed inset-0 bg-black/50 hidden z-50 flex items-center justify-center p-4 backdrop-blur-sm">
-        <div class="bg-white dark:bg-gray-800 w-full max-w-lg rounded-2xl shadow-2xl p-6">
-            <h3 class="text-xl font-bold mb-4" id="modal-service-title">Ajouter un service</h3>
-            <form onsubmit="saveService(event)">
-                <input type="hidden" id="s-id">
-                <div class="mb-4">
-                    <input type="text" id="s-title" placeholder="Titre du service" required class="w-full p-2 border rounded dark:bg-gray-700">
-                </div>
-                <div class="mb-4">
-                    <input type="text" id="s-icon" placeholder="Classe Icone (ex: fa-code)" class="w-full p-2 border rounded dark:bg-gray-700">
-                </div>
-                <div class="mb-4">
-                    <textarea id="s-desc" placeholder="Description" rows="3" class="w-full p-2 border rounded dark:bg-gray-700"></textarea>
-                </div>
-                <div class="flex justify-end gap-3">
-                    <button type="button" onclick="closeServiceModal()" class="px-4 py-2 text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 rounded">Annuler</button>
-                    <button type="submit" class="px-4 py-2 bg-brand-blue text-white rounded hover:bg-blue-800">Sauvegarder</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- JAVASCRIPT LOGIC -->
-    <script>
-        // --- 1. STATE & DATA MANAGEMENT ---
-        
-        // Default Data (Seed)
-        const defaultData = {
-            stats: { projects: 42, members: 150, years: 5, satisfaction: '100%' },
-            projects: [
-                { id: 1, title: 'EcoPlateforme', category: 'Web', status: 'Terminé', tech: 'React, Tailwind', desc: 'Plateforme de gestion écologique pour entreprises.', image: 'https://picsum.photos/seed/p1/400/300' },
-                { id: 2, title: 'HealthApp', category: 'Mobile', status: 'En cours', tech: 'Flutter, Firebase', desc: 'Application de suivi médical connectée.', image: 'https://picsum.photos/seed/p2/400/300' },
-                { id: 3, title: 'AI Predict', category: 'IA', status: 'Terminé', tech: 'Python, TensorFlow', desc: 'Modèle prédictif pour la finance.', image: 'https://picsum.photos/seed/p3/400/300' },
-            ],
-            services: [
-                { id: 1, title: 'Développement Web', icon: 'fa-code', desc: 'Sites modernes, rapides et responsive.' },
-                { id: 2, title: 'Applications Mobile', icon: 'fa-mobile-alt', desc: 'Apps iOS et Android natives ou hybrides.' },
-                { id: 3, title: 'Consulting IT', icon: 'fa-server', desc: 'Audit, conseil et optimisation infrastructure.' },
-            ],
-            currentUser: null // 'admin' or null
-        };
-
-        // Load Data
-        let db = JSON.parse(localStorage.getItem('unipro_db')) || defaultData;
-        
-        // Save Data Helper
-        const saveDb = () => {
-            localStorage.setItem('unipro_db', JSON.stringify(db));
-            updateUI();
-        };
-
-        // --- 2. ROUTING & NAVIGATION ---
-        
-        const router = (pageId) => {
-            // Hide all sections
-            document.querySelectorAll('.page-section').forEach(el => el.classList.add('hidden'));
-            
-            // Show requested section
-            const target = document.getElementById(pageId);
-            if (target) target.classList.remove('hidden');
-            
-            // Scroll to top
-            window.scrollTo(0, 0);
-
-            // Close mobile menu if open
-            document.getElementById('mobile-menu').classList.add('hidden');
-        };
-
-        const handleAuthClick = () => {
-            if (db.currentUser === 'admin') {
-                router('admin');
-            } else {
-                router('login');
-            }
-        };
-
-        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
-            document.getElementById('mobile-menu').classList.toggle('hidden');
-        });
-
-        // --- 3. UI RENDERING ---
-
-        const updateUI = () => {
-            renderStats();
-            renderPortfolio();
-            renderServices();
-            renderAdminTables();
-            
-            // Update Auth Button Text
-            const authText = db.currentUser === 'admin' ? 'Dashboard' : 'Espace Admin';
-            document.getElementById('auth-btn').textContent = authText;
-            document.getElementById('auth-btn-mobile').textContent = authText;
-        };
-
-        const renderStats = () => {
-            document.getElementById('stat-projects').textContent = db.stats.projects;
-            document.getElementById('stat-members').textContent = db.stats.members;
-            document.getElementById('stat-years').textContent = db.stats.years;
-            // Satisfaction is hardcoded in demo, but could be dynamic
-        };
-
-        const renderPortfolio = (filter = 'all') => {
-            const grid = document.getElementById('projects-grid');
-            grid.innerHTML = '';
-
-            const filtered = db.projects.filter(p => filter === 'all' || p.category === filter);
-
-            if (filtered.length === 0) {
-                document.getElementById('no-projects').classList.remove('hidden');
-            } else {
-                document.getElementById('no-projects').classList.add('hidden');
-                filtered.forEach(p => {
-                    const statusColor = p.status === 'Terminé' ? 'bg-green-500' : 'bg-yellow-500';
-                    const html = `
-                        <div class="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition group border border-gray-100 dark:border-gray-700">
-                            <div class="h-48 overflow-hidden relative">
-                                <img src="${p.image}" alt="${p.title}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-                                <span class="absolute top-4 right-4 ${statusColor} text-white text-xs font-bold px-2 py-1 rounded">${p.status}</span>
-                            </div>
-                            <div class="p-6">
-                                <div class="text-xs text-brand-blue font-bold uppercase mb-2">${p.category}</div>
-                                <h3 class="text-xl font-bold mb-2">${p.title}</h3>
-                                <p class="text-gray-500 dark:text-gray-400 text-sm mb-4 line-clamp-2">${p.desc}</p>
-                                <div class="flex items-center justify-between mt-auto">
-                                    <span class="text-xs text-gray-400 bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded">${p.tech}</span>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    grid.innerHTML += html;
-                });
-            }
-        };
-
-        const filterProjects = (cat) => {
-            // Update active button visual
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.classList.remove('bg-brand-blue', 'text-white');
-                btn.classList.add('bg-gray-200', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-300');
-            });
-            event.target.classList.remove('bg-gray-200', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-300');
-            event.target.classList.add('bg-brand-blue', 'text-white');
-            
-            renderPortfolio(cat);
-        };
-
-        const renderServices = () => {
-            const grid = document.getElementById('services-grid');
-            grid.innerHTML = '';
-            db.services.forEach(s => {
-                const html = `
-                    <div class="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-sm hover:-translate-y-1 transition duration-300 border border-gray-100 dark:border-gray-700 cursor-pointer group">
-                        <div class="w-14 h-14 bg-blue-50 dark:bg-blue-900/30 rounded-lg flex items-center justify-center text-brand-blue text-2xl mb-6 group-hover:bg-brand-blue group-hover:text-white transition">
-                            <i class="fas ${s.icon}"></i>
-                        </div>
-                        <h3 class="text-xl font-bold mb-3">${s.title}</h3>
-                        <p class="text-gray-500 dark:text-gray-400 mb-4">${s.desc}</p>
-                        <span class="text-brand-red text-sm font-semibold group-hover:underline">En savoir plus <i class="fas fa-arrow-right ml-1"></i></span>
-                    </div>
-                `;
-                grid.innerHTML += html;
-            });
-        };
-
-        // --- 4. ADMIN LOGIC ---
-
-        const handleLogin = (e) => {
-            e.preventDefault();
-            const u = document.getElementById('username').value;
-            const p = document.getElementById('password').value;
-            
-            if (u === 'admin' && p === 'admin') {
-                db.currentUser = 'admin';
-                saveDb();
-                showToast('Connexion réussie', 'success');
-                router('admin');
-                // Pre-fill stats form
-                document.getElementById('edit-stat-projects').value = db.stats.projects;
-                document.getElementById('edit-stat-members').value = db.stats.members;
-                document.getElementById('edit-stat-years').value = db.stats.years;
-            } else {
-                showToast('Identifiants incorrects', 'error');
-            }
-        };
-
-        const logout = () => {
-            db.currentUser = null;
-            saveDb();
-            router('home');
-            showToast('Déconnecté', 'info');
-        };
-
-        const switchAdminTab = (tabId) => {
-            document.querySelectorAll('.admin-tab').forEach(el => el.classList.add('hidden'));
-            document.getElementById('admin-' + tabId).classList.remove('hidden');
-            
-            // Nav active state
-            document.querySelectorAll('.admin-nav-btn').forEach(btn => {
-                btn.classList.remove('bg-blue-50', 'dark:bg-gray-700', 'text-brand-blue', 'font-bold');
-            });
-            event.currentTarget.classList.add('bg-blue-50', 'dark:bg-gray-700', 'text-brand-blue', 'font-bold');
-        };
-
-        // --- CRUD Projects ---
-        
-        const renderAdminTables = () => {
-            const pList = document.getElementById('admin-projects-list');
-            pList.innerHTML = '';
-            db.projects.forEach(p => {
-                const row = `
-                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition">
-                        <td class="p-4 font-medium">${p.title}</td>
-                        <td class="p-4 text-sm text-gray-500">${p.category}</td>
-                        <td class="p-4"><span class="px-2 py-1 rounded text-xs font-bold ${p.status === 'Terminé' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}">${p.status}</span></td>
-                        <td class="p-4 text-right space-x-2">
-                            <button onclick="editProject(${p.id})" class="text-blue-600 hover:text-blue-800"><i class="fas fa-edit"></i></button>
-                            <button onclick="deleteProject(${p.id})" class="text-red-600 hover:text-red-800"><i class="fas fa-trash"></i></button>
-                        </td>
-                    </tr>
-                `;
-                pList.innerHTML += row;
-            });
-
-            const sList = document.getElementById('admin-services-list');
-            sList.innerHTML = '';
-            db.services.forEach(s => {
-                const row = `
-                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition">
-                        <td class="p-4 font-medium">${s.title}</td>
-                        <td class="p-4 text-sm text-gray-500 truncate max-w-xs">${s.desc}</td>
-                        <td class="p-4 text-right space-x-2">
-                            <button onclick="editService(${s.id})" class="text-blue-600 hover:text-blue-800"><i class="fas fa-edit"></i></button>
-                            <button onclick="deleteService(${s.id})" class="text-red-600 hover:text-red-800"><i class="fas fa-trash"></i></button>
-                        </td>
-                    </tr>
-                `;
-                sList.innerHTML += row;
-            });
-        };
-
-        // Project Modal & Form
-        const openProjectModal = () => {
-            document.getElementById('p-id').value = '';
-            document.getElementById('p-title').value = '';
-            document.getElementById('p-desc').value = '';
-            document.getElementById('p-tech').value = '';
-            document.getElementById('p-image').value = '';
-            document.getElementById('modal-project-title').textContent = "Ajouter un projet";
-            document.getElementById('project-modal').classList.remove('hidden');
-        };
-
-        const editProject = (id) => {
-            const p = db.projects.find(x => x.id === id);
-            if(!p) return;
-            document.getElementById('p-id').value = p.id;
-            document.getElementById('p-title').value = p.title;
-            document.getElementById('p-category').value = p.category;
-            document.getElementById('p-status').value = p.status;
-            document.getElementById('p-desc').value = p.desc;
-            document.getElementById('p-tech').value = p.tech;
-            document.getElementById('p-image').value = p.image;
-            document.getElementById('modal-project-title').textContent = "Modifier le projet";
-            document.getElementById('project-modal').classList.remove('hidden');
-        };
-
-        const closeProjectModal = () => {
-            document.getElementById('project-modal').classList.add('hidden');
-        };
-
-        const saveProject = (e) => {
-            e.preventDefault();
-            const id = document.getElementById('p-id').value;
-            const newProject = {
-                id: id ? parseInt(id) : Date.now(),
-                title: document.getElementById('p-title').value,
-                category: document.getElementById('p-category').value,
-                status: document.getElementById('p-status').value,
-                desc: document.getElementById('p-desc').value,
-                tech: document.getElementById('p-tech').value,
-                image: document.getElementById('p-image').value || `https://picsum.photos/seed/${Date.now()}/400/300`
-            };
-
-            if (id) {
-                const idx = db.projects.findIndex(x => x.id == id);
-                db.projects[idx] = newProject;
-                showToast('Projet modifié', 'success');
-            } else {
-                db.projects.push(newProject);
-                db.stats.projects++; // Auto update stats
-                showToast('Projet ajouté', 'success');
-            }
-            
-            saveDb();
-            closeProjectModal();
-        };
-
-        const deleteProject = (id) => {
-            if(confirm('Supprimer ce projet ?')) {
-                db.projects = db.projects.filter(x => x.id !== id);
-                saveDb();
-                showToast('Projet supprimé', 'info');
-            }
-        };
-
-        // Service Modal & Form
-        const openServiceModal = () => {
-            document.getElementById('s-id').value = '';
-            document.getElementById('s-title').value = '';
-            document.getElementById('s-desc').value = '';
-            document.getElementById('s-icon').value = '';
-            document.getElementById('modal-service-title').textContent = "Ajouter un service";
-            document.getElementById('service-modal').classList.remove('hidden');
-        };
-
-        const editService = (id) => {
-            const s = db.services.find(x => x.id === id);
-            if(!s) return;
-            document.getElementById('s-id').value = s.id;
-            document.getElementById('s-title').value = s.title;
-            document.getElementById('s-desc').value = s.desc;
-            document.getElementById('s-icon').value = s.icon;
-            document.getElementById('modal-service-title').textContent = "Modifier le service";
-            document.getElementById('service-modal').classList.remove('hidden');
-        };
-
-        const closeServiceModal = () => {
-            document.getElementById('service-modal').classList.add('hidden');
-        };
-
-        const saveService = (e) => {
-            e.preventDefault();
-            const id = document.getElementById('s-id').value;
-            const newService = {
-                id: id ? parseInt(id) : Date.now(),
-                title: document.getElementById('s-title').value,
-                desc: document.getElementById('s-desc').value,
-                icon: document.getElementById('s-icon').value || 'fa-cogs'
-            };
-
-            if (id) {
-                const idx = db.services.findIndex(x => x.id == id);
-                db.services[idx] = newService;
-            } else {
-                db.services.push(newService);
-            }
-            saveDb();
-            closeServiceModal();
-            showToast('Service sauvegardé', 'success');
-        };
-
-        const deleteService = (id) => {
-            if(confirm('Supprimer ce service ?')) {
-                db.services = db.services.filter(x => x.id !== id);
-                saveDb();
-                showToast('Service supprimé', 'info');
-            }
-        };
-
-        const updateStats = (e) => {
-            e.preventDefault();
-            db.stats.projects = parseInt(document.getElementById('edit-stat-projects').value);
-            db.stats.members = parseInt(document.getElementById('edit-stat-members').value);
-            db.stats.years = parseInt(document.getElementById('edit-stat-years').value);
-            saveDb();
-            showToast('Statistiques mises à jour', 'success');
-        };
-
-        // --- 5. UTILS ---
-
-        // Search Function
-        document.getElementById('global-search').addEventListener('input', (e) => {
-            const term = e.target.value.toLowerCase();
-            if(term.length < 2) {
-                renderPortfolio();
-                return;
-            }
-            
-            const grid = document.getElementById('projects-grid');
-            grid.innerHTML = '';
-            
-            // Simple search across projects and services titles
-            const foundProjects = db.projects.filter(p => p.title.toLowerCase().includes(term));
-            
-            // Switch to portfolio view if searching
-            // router('portfolio'); // Optional: auto-switch tab
-            
-            foundProjects.forEach(p => {
-                 // Reuse render logic (simplified for brevity)
-                 const html = `
-                    <div class="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-sm border border-gray-100 dark:border-gray-700 p-4">
-                        <h3 class="font-bold">${p.title}</h3>
-                        <p class="text-sm text-gray-500">${p.category}</p>
-                    </div>`;
-                grid.innerHTML += html;
-            });
-            
-            if(foundProjects.length === 0) {
-                grid.innerHTML = '<p class="col-span-3 text-center text-gray-500">Aucun résultat.</p>';
-            }
-        });
-
-        // Contact Tabs
-        const switchContactTab = (tab) => {
-            const formMsg = document.getElementById('contact-form');
-            const formQuote = document.getElementById('quote-form');
-            const tabMsg = document.getElementById('tab-message');
-            const tabQuote = document.getElementById('tab-quote');
-
-            if(tab === 'message') {
-                formMsg.classList.remove('hidden');
-                formQuote.classList.add('hidden');
-                tabMsg.classList.add('border-brand-blue', 'text-brand-blue', 'dark:text-blue-400');
-                tabMsg.classList.remove('border-transparent', 'text-gray-500');
-                tabQuote.classList.remove('border-brand-blue', 'text-brand-blue', 'dark:text-blue-400');
-                tabQuote.classList.add('border-transparent', 'text-gray-500');
-            } else {
-                formMsg.classList.add('hidden');
-                formQuote.classList.remove('hidden');
-                tabQuote.classList.add('border-brand-blue', 'text-brand-blue', 'dark:text-blue-400');
-                tabQuote.classList.remove('border-transparent', 'text-gray-500');
-                tabMsg.classList.remove('border-brand-blue', 'text-brand-blue', 'dark:text-blue-400');
-                tabMsg.classList.add('border-transparent', 'text-gray-500');
-            }
-        };
-
-        const handleContactSubmit = (e) => {
-            e.preventDefault();
-            // Simulation d'envoi
-            const btn = e.target.querySelector('button');
-            const originalText = btn.textContent;
-            btn.textContent = 'Envoi...';
-            btn.disabled = true;
-
-            setTimeout(() => {
-                showToast('Message envoyé avec succès !', 'success');
-                e.target.reset();
-                btn.textContent = originalText;
-                btn.disabled = false;
-            }, 1500);
-        };
-
-        // Toast Notification System
-        const showToast = (message, type = 'info') => {
-            const container = document.getElementById('toast-container');
-            const toast = document.createElement('div');
-            
-            const colors = {
-                success: 'bg-green-500',
-                error: 'bg-red-500',
-                info: 'bg-blue-500'
-            };
-            
-            toast.className = `${colors[type]} text-white px-6 py-3 rounded-lg shadow-lg transform transition-all duration-300 translate-x-full opacity-0 flex items-center`;
-            toast.innerHTML = `<i class="fas fa-info-circle mr-2"></i> ${message}`;
-            
-            container.appendChild(toast);
-            
-            // Animate in
-            requestAnimationFrame(() => {
-                toast.classList.remove('translate-x-full', 'opacity-0');
-            });
-            
-            // Remove after 3s
-            setTimeout(() => {
-                toast.classList.add('opacity-0', 'translate-y-2');
-                setTimeout(() => toast.remove(), 300);
-            }, 3000);
-        };
-
-        // Dark Mode
-        const themeToggle = document.getElementById('theme-toggle');
-        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            document.documentElement.classList.add('dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-        }
-
-        themeToggle.addEventListener('click', () => {
-            document.documentElement.classList.toggle('dark');
-            if (document.documentElement.classList.contains('dark')) {
-                localStorage.theme = 'dark';
-            } else {
-                localStorage.theme = 'light';
-            }
-        });
-
-        // --- INIT ---
-        window.addEventListener('DOMContentLoaded', () => {
-            updateUI();
-        });
-
-    </script>
 </body>
 </html>
